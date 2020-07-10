@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Login to Explore</title>
+<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/login-style.css}">
+</head>
+<body class="login-body" th:style="'background: url(' + @{/img/torii_gate.jpg} + ') no-repeat center center fixed;'">
+	<div class="form-section container" style="max-width:30%;">
+		<h1 class="text-center">Login Form</h1>
+		<form method="post" th:action="@{/login-form}">
+			<div class="form-group mt-3">
+				<input name="username" type="text" class="form-control" placeholder="Your name" required> 
+				<input name="password" type="password" class="form-control mt-3" placeholder="Your password" required>
+			</div>
+
+			<div class="d-flex justify-content-between">
+				<div>
+					<a th:href="@{/register-form}" style="color: white; text-decoration: none;">Register</a>
+				</div>
+				
+				<div>
+					<button type="submit" class="btn btn-success">Login</button>
+					<a th:href="@{/}" class="btn btn-warning ml-2">Homepage</a>
+				</div>
+			</div>
+			
+			<h4 style="color:white;">Default account: user/123</h4>
+		</form>
+	
+		
+		<div th:if="${errorMessage} != null">
+			<div class="alert alert-danger">
+				<p th:text="${errorMessage}">Error message</p>
+			</div>
+		</div>
+		<div th:if="${successMessage} != null">
+			<div class="alert alert-success">
+				<p th:text="${successMessage}">Error message</p>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

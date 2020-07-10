@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ProductMapper">
+	
+	<select id="selectProducts" resultType="Product">
+		SELECT * FROM product
+	</select>
+	
+	<select id="selectProductsByPage" resultType="Product">
+		SELECT * FROM product limit 3 offset #{page}
+	</select>
+	
+	<select id="selectProductsByManufacture" resultType="Product">
+		SELECT * FROM product where manufacturer_id = #{manufacturer_id}
+	</select>
+	
+	<select id="selectProductById" resultType="Product">
+		SELECT * FROM PRODUCT where id = #{id}
+	</select>
+	
+	<select id="selectProductByName" parameterType="String" resultType="Product">
+		SELECT * FROM PRODUCT WHERE NAME LIKE CONCAT('%', #{name}, '%')
+	</select>
+</mapper>

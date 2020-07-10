@@ -1,0 +1,53 @@
+.card {
+	width: 150px;
+}
+
+.card {
+	width: 11rem !important;
+}
+
+textarea {
+	height: 200px;
+}
+
+.card {
+	border: none;
+}
+
+a.nav-item-email:hover {
+	text-decoration: none;
+}
+
+a.ic-social {
+	color: black !important;
+}
+
+a.menu-center-link {
+	color: black;
+	font-size: x-large;
+	text-weight: bold;
+}
+
+a.menu-center-link:hover {
+	color: greenyellow;
+}
+
+h1.front-image-text {
+	color: white;
+	position: absolute;
+	left: 0;
+	top: auto;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	width: max-content;
+	height: max-content;
+}
+
+a.nav-link {
+	color: black;
+}
+
+a.nav-link-heart:hover, a.nav-link-bag:hover {
+	color: red;
+}
