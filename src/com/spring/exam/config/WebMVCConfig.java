@@ -23,7 +23,6 @@ public class WebMVCConfig implements WebMvcConfigurer{
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		// TODO Auto-generated method stub
 		registry.addResourceHandler("/fonts/**").addResourceLocations("/WEB-INF/views/fonts/");
 		registry.addResourceHandler("/img/**").addResourceLocations("/WEB-INF/views/img/");
 		registry.addResourceHandler("/css/**").addResourceLocations("/WEB-INF/views/css/");

@@ -1,6 +1,6 @@
 package com.spring.exam.sys.model;
 
-public class Product {
+public class ProductCategory {
 	private int id;
 	private String name;
 	private int quantity;
@@ -8,16 +8,17 @@ public class Product {
 	private String description;
 	private int manufacturer_id;
 	private int category_id;
+	private String category_name;
 	private String image;
 	private String image_detail;
 	private String discount_id;
 
-	public Product() {
+	public ProductCategory() {
 		super();
 	}
 
-	public Product(int id, String name, int quantity, float price, String description, int manufacturer_id, int category_id, String image,
-			String image_detail, String discount_id) {
+	public ProductCategory(int id, String name, int quantity, float price, String description, int manufacturer_id,
+			int category_id, String category_name, String image, String image_detail, String discount_id) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -26,6 +27,7 @@ public class Product {
 		this.description = description;
 		this.manufacturer_id = manufacturer_id;
 		this.category_id = category_id;
+		this.category_name = category_name;
 		this.image = image;
 		this.image_detail = image_detail;
 		this.discount_id = discount_id;
@@ -78,8 +80,6 @@ public class Product {
 	public void setManufacturer_id(int manufacturer_id) {
 		this.manufacturer_id = manufacturer_id;
 	}
-	
-	
 
 	public int getCategory_id() {
 		return category_id;
@@ -87,6 +87,14 @@ public class Product {
 
 	public void setCategory_id(int category_id) {
 		this.category_id = category_id;
+	}
+
+	public String getCategory_name() {
+		return category_name;
+	}
+
+	public void setCategory_name(String category_name) {
+		this.category_name = category_name;
 	}
 
 	public String getImage() {
@@ -115,8 +123,9 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", quantity=" + quantity + ", price=" + price + ", description="
-				+ description + ", manufacturer_id=" + manufacturer_id + ", category_id=" + category_id + ", image=" + image + ", image_detail="
+		return "ProductCategory [id=" + id + ", name=" + name + ", quantity=" + quantity + ", price=" + price
+				+ ", description=" + description + ", manufacturer_id=" + manufacturer_id + ", category_id="
+				+ category_id + ", category_name=" + category_name + ", image=" + image + ", image_detail="
 				+ image_detail + ", discount_id=" + discount_id + "]";
 	}
 

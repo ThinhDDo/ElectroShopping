@@ -6,12 +6,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.exam.sys.model.UserInfo;
-import com.spring.exam.sys.service.ProductService;
+import com.spring.exam.sys.service.ProductCategoryService;
 import com.spring.exam.sys.service.UserService;
 
 @Controller
@@ -20,7 +19,7 @@ public class HomeController {
 	private UserService userService;
 	
 	@Autowired
-	private ProductService productService;
+	private ProductCategoryService productCategoryService;
 	
 	/**
 	 * Welcome page, Profile page
@@ -38,6 +37,8 @@ public class HomeController {
 			}
 		}
 		
+		// TODO: Get All Categories
+		
 		model.addAttribute("user", userProfile);
 		
 		return "index";
@@ -48,10 +49,10 @@ public class HomeController {
 								Model model) {
 		
 		if(searchProduct.equals("")) {
-			return "index";
+			return "redirect:/";
 		}
-		model.addAttribute("products", productService.selectProductsByName(searchProduct));
+		model.addAttribute("products", productCategoryService.selectProductsByName(searchProduct));
 		
-		return "store";
+		return "search";
 	}
 }

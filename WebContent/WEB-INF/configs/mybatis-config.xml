@@ -9,6 +9,7 @@
 	<typeAliases>
 		<typeAlias type="com.spring.exam.sys.model.UserInfo" alias="User"/>
 		<typeAlias type="com.spring.exam.sys.model.Product" alias="Product"/>
+		<typeAlias type="com.spring.exam.sys.model.ProductCategory" alias="ProductCategory"/>
 		<typeAlias type="com.spring.exam.sys.model.Manufacturer" alias="Manufacturer"/>
 	</typeAliases>
 	
