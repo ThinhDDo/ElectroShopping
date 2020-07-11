@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- store bottom filter -->
+	<div th:fragment="pagination" class="store-filter clearfix">
+		<span class="store-qty" th:text="'Total products available: ' + ${productsAvailable}">Showing 20-100 products</span>
+		<ul class="store-pagination">
+			<li th:each="page : ${#numbers.sequence(1, pageSize)}" 
+					th:class="${#strings.equals(page, currentPage) ? 'active' : ''}">
+ 				<a href="#" th:href="@{/store(currentPage=${page})}" th:text="${page}"></a> 
+			</li>
+<!-- 			<li> -->
+<!-- 				<a href="#" th:href="@{/store(option='next')}"><i class="fa fa-angle-right"></i></a> -->
+<!-- 			</li> -->
+		</ul>
+	</div>
+	<!-- /store bottom filter -->
+</body>
+</html>

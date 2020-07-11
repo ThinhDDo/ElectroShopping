@@ -10,8 +10,12 @@
 		WHERE p.category_id = c.category_id
 	</select>
 	
-	<select id="selectProductsByPage" resultType="ProductCategory">
-		SELECT * FROM product limit 3 offset #{page}
+	<select id="selectProductsByPage" parameterType="int" resultType="ProductCategory">
+		
+		SELECT id, name, quantity, price, description, manufacturer_id, c.category_id, c.category_name, image, image_detail
+		FROM product p, category c
+		WHERE p.category_id = c.category_id
+		LIMIT 6 OFFSET #{page}
 	</select>
 	
 	<select id="selectProductsByManufacture" resultType="ProductCategory">
@@ -19,8 +23,10 @@
 	</select>
 	
 	<select id="selectProductById" resultType="ProductCategory">
-		SELECT id, name, quantity, price, description, manufacturer_id, category_id, category_name, image, image_detail 
-		FROM PRODUCT where id = #{id}
+		SELECT id, name, quantity, price, description, manufacturer_id, c.category_id, c.category_name, image, image_detail 
+		FROM PRODUCT p, CATEGORY c
+		WHERE id = #{id}
+		AND p.category_id = c.category_id
 	</select>
 	
 	<select id="selectProductByName" parameterType="String" resultType="ProductCategory">

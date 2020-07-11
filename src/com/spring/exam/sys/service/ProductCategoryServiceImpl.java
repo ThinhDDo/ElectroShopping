@@ -9,7 +9,7 @@ import com.spring.exam.sys.dao.ProductCategoryDAO;
 import com.spring.exam.sys.model.ProductCategory;
 
 @Service
-public class ProductCategoryServiceImpl implements ProductCategoryService {
+public class ProductCategoryServiceImpl implements ProductCategoryService, PageableProductService {
 	
 	@Autowired
 	private ProductCategoryDAO productCategoryDAO;
@@ -37,5 +37,17 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 	@Override
 	public List<ProductCategory> selectProductsByName(String name) {
 		return productCategoryDAO.selectProductByName(name);
+	}
+
+	@Override
+	public int getPageSize() {
+		int pageSize = productCategoryDAO.selectProducts().size();
+		return pageSize % 2 == 0 ? pageSize/6 : (pageSize/6) + 1 ;
+	}
+
+	@Override
+	public int getPageNumber() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

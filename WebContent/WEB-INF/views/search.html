@@ -39,7 +39,7 @@
 		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->
-			<div id="top-header">
+			<div th:replace="fragments/topHeader :: topHeader" id="top-header">
 				<div class="container">
 					<ul class="header-links pull-left">
 						<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
@@ -394,8 +394,33 @@
 					<!-- /ASIDE -->
 
 					<!-- STORE -->
-					<div th:replace="fragments/showProducts :: storeProducts">
+					<div id="store" class="col-md-9">
+						<div class="store-filter clearfix">
+							<div class="store-sort">
+								<label>
+									Sort By:
+									<select class="input-select">
+										<option value="0">Popular</option>
+										<option value="1">Position</option>
+									</select>
+								</label>
+					
+								<label>
+									Show:
+									<select class="input-select">
+										<option value="0">20</option>
+										<option value="1">50</option>
+									</select>
+								</label>
+							</div>
+							<ul class="store-grid">
+								<li class="active"><i class="fa fa-th"></i></li>
+								<li><a href="#"><i class="fa fa-th-list"></i></a></li>
+							</ul>
+						</div>
 						
+						<div th:replace="fragments/showProducts :: storeProducts" class="row"></div>
+						<div th:replace="fragments/pagination :: pagination" class="store-filter clearfix">
 					</div>
 					<!-- /STORE -->
 				</div>
@@ -442,7 +467,7 @@
 		<!-- /NEWSLETTER -->
 
 		<!-- FOOTER -->
-		<footer id="footer">
+		<footer th:replace="fragments/mainFooter :: mainFooter" id="footer">
 			<!-- top footer -->
 			<div class="section">
 				<!-- container -->

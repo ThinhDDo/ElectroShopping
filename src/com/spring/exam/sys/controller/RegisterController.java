@@ -18,7 +18,10 @@ public class RegisterController {
 	
 	@GetMapping(value="/register-form")
 	public String registerForm(Model model) {
-		model.addAttribute("newUser", new UserInfo());
+		
+		UserInfo newUser = new UserInfo();
+		newUser.setRole_id(1);
+		model.addAttribute("newUser", newUser);
 		return "register";
 	}
 	
@@ -26,6 +29,6 @@ public class RegisterController {
 	public String register(@ModelAttribute UserInfo user) {
 		
 		userService.insertUser(user);
-		return "redirect:/login";
+		return "redirect:/login?register=true";
 	}
 }

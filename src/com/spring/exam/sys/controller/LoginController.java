@@ -7,17 +7,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LoginController {
-
+	
 	@GetMapping(value="/login")
 	public String loginPage(@RequestParam(required = false, name = "error", defaultValue = "false") String error,
+							@RequestParam(required = false, name = "register", defaultValue = "false") String register,
 							Model model) {
 		
 		String errorMessage = null;
+		String successMessage = null;
         if(error.equals("true")) {
             errorMessage = "Username or Password is incorrect !!";
         }
+        if(register.equals("true")) {
+        	successMessage = "Registered Successfully";
+        } else {
+        	errorMessage = "Registed failed."; 
+        }
 		
         model.addAttribute("errorMessage", errorMessage);
+        model.addAttribute("successMessage", successMessage);
 		return "login";
 	}
 }

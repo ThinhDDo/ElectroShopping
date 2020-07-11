@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- TOP HEADER -->
+	<div th:fragment="topHeader" id="top-header">
+		<div class="container">
+			<ul class="header-links pull-left">
+				<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
+				<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
+				<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+			</ul>
+			<ul class="header-links pull-right">
+				
+				<li th:if="${user} == null">
+					<a href="#" th:href="@{/login}">
+						<i class="fa fa-user-o"></i>Login
+					</a>
+				</li>
+				<th:block th:if="${user} != null">
+					<li>
+						<a href="#" th:href="@{/profile(user=${user.username})}" th:text="${user.fullname} + ' (' + ${user.role} + ')'">
+							<i class="fa fa-user-o"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" th:href="@{/logout}">
+							<i class="fa fa-user-o"></i>Logout
+						</a>
+					</li>
+				</th:block>
+			</ul>
+		</div>
+	</div>
+	<!-- /TOP HEADER -->
+</body>
+</html>

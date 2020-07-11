@@ -18,8 +18,8 @@
 			<div class="avata d-flex justify-content-center m-4">
 				<form method="post" action="#" th:action="@{/save-avata}" enctype="multipart/form-data" th:object="${profile}">
 					<input th:field="*{username}" type="text" hidden="true">
-					<input id="avata-input" name="file" onchange="getURL()" type="file" hidden="true">
-					<img onclick="showDialog()" id="avata-img" class="rounded-circle" th:src="@{/img/{path}(path=${profile.avata})}">
+					<input id="avata-input" name="avata" onchange="getURL()" type="file" hidden="true">
+					<img onclick="showDialog()" id="avata-img" class="rounded-circle" th:src="@{/img/avata/{path}(path=${profile.avata})}">
 					<button type="submit" id="avata-submit" hidden="true"></button>
 				</form>
 			</div>
@@ -39,7 +39,7 @@
 						
 						<div class="form-group col-md-4">
 						<label for="inputBirthday">Birthday</label>
-							<input type="text" th:field="*{birthday}" class="form-control" placeholder="Your Birthday">
+							<input type="date" th:field="*{birthday}" class="form-control" placeholder="Your Birthday">
 						</div>
 					</div>
 					

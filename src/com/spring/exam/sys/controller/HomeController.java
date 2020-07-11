@@ -21,18 +21,23 @@ public class HomeController {
 	@Autowired
 	private ProductCategoryService productCategoryService;
 	
+	private static Authentication authentication;
+	private static UserInfo userProfile;
+	
 	/**
 	 * Welcome page, Profile page
 	 * @param model
 	 * @return
 	 */
 	@GetMapping(value= {"/", "/index"})
-	public String profile(Model model, Authentication auth) {
+	public String home(Model model, Authentication auth) {
 		
-		UserInfo userProfile = null;
+		userProfile = null;
 		if(auth!=null) {
-			if(auth.isAuthenticated()) {
-				User loginUser = (User) auth.getPrincipal();
+			
+			authentication = auth;
+			if(authentication.isAuthenticated()) {
+				User loginUser = (User) authentication.getPrincipal();
 				userProfile = userService.selectUserByName(loginUser.getUsername());
 			}
 		}
@@ -50,6 +55,10 @@ public class HomeController {
 		
 		if(searchProduct.equals("")) {
 			return "redirect:/";
+		}
+		
+		if(authentication!=null && authentication.isAuthenticated()) {
+			model.addAttribute("user", userProfile);
 		}
 		model.addAttribute("products", productCategoryService.selectProductsByName(searchProduct));
 		

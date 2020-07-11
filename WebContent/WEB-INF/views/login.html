@@ -9,6 +9,7 @@
 <body class="login-body" th:style="'background: url(' + @{/img/torii_gate.jpg} + ') no-repeat center center fixed;'">
 	<div class="form-section container" style="max-width:30%;">
 		<h1 class="text-center">Login Form</h1>
+		
 		<form method="post" th:action="@{/login-form}">
 			<div class="form-group mt-3">
 				<input name="username" type="text" class="form-control" placeholder="Your name" required> 
@@ -29,17 +30,17 @@
 			<h4 style="color:white;">Default account: user/123</h4>
 		</form>
 	
-		
-		<div th:if="${errorMessage} != null">
-			<div class="alert alert-danger">
-				<p th:text="${errorMessage}">Error message</p>
-			</div>
-		</div>
 		<div th:if="${successMessage} != null">
 			<div class="alert alert-success">
 				<p th:text="${successMessage}">Error message</p>
 			</div>
 		</div>
+		<div th:if="${errorMessage} != null">
+			<div class="alert alert-danger">
+				<p th:text="${errorMessage}">Error message</p>
+			</div>
+		</div>
+		
 
 	</div>
 </body>
