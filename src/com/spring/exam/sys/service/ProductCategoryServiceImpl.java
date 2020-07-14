@@ -40,14 +40,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService, Pagea
 	}
 
 	@Override
-	public int getPageSize() {
+	public int getTotalPages() {
 		int pageSize = productCategoryDAO.selectProducts().size();
 		return pageSize % 2 == 0 ? pageSize/6 : (pageSize/6) + 1 ;
-	}
-
-	@Override
-	public int getPageNumber() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }
