@@ -10,6 +10,4 @@ public interface ProductCategoryService {
 	List<ProductCategory> selectProductsByPage(int page);
 	List<ProductCategory> selectProductsByName(String name);
 	ProductCategory selectProductById(int id);
-	
-	
 }

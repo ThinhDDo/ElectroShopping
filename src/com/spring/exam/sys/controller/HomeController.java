@@ -6,14 +6,17 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.spring.exam.sys.model.UserInfo;
 import com.spring.exam.sys.service.ProductCategoryService;
 import com.spring.exam.sys.service.UserService;
 
 @Controller
+@SessionAttributes("loginUser")
 public class HomeController {
 	@Autowired
 	private UserService userService;
@@ -29,15 +32,16 @@ public class HomeController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping(value= {"/", "/index"})
-	public String home(Model model, Authentication auth) {
+	@GetMapping(value= {"/","/index"})
+	public String home(Model model, 
+					   Authentication auth) {
 		
 		userProfile = null;
 		if(auth!=null) {
-			
 			authentication = auth;
 			if(authentication.isAuthenticated()) {
 				User loginUser = (User) authentication.getPrincipal();
+				model.addAttribute("loginUser", loginUser);
 				userProfile = userService.selectUserByName(loginUser.getUsername());
 			}
 		}

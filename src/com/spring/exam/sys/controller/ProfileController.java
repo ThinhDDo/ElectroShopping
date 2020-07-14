@@ -7,12 +7,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -30,13 +33,14 @@ public class ProfileController {
 	
 	@GetMapping(value="/profile")
 	public String profile(
+			@SessionAttribute("loginUser") User user,
 			@RequestParam(name = "user", required = false, defaultValue = "") String username,
 			@RequestParam(name = "updated", required = false, defaultValue = "") String update,
 			@RequestParam(name = "avata", required = false, defaultValue = "") String avata,
 			Model model) {
 		
 		if(!username.equals("")) {
-			UserInfo userInfo = userService.selectUserByName(username);
+			UserInfo userInfo = userService.selectUserByName(user.getUsername());
 			model.addAttribute("profile", userInfo);
 		}
 		
