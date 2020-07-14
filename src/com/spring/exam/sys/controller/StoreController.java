@@ -49,10 +49,11 @@ public class StoreController {
 								@PathVariable("page") int page,
 								Model model,
 								Authentication auth) {
-		PagedListHolder<?> pages = (PagedListHolder<?>) currentPagedListHolder;
+		PagedListHolder<?> pages = (PagedListHolder<?>)currentPagedListHolder;
 		int pageSize = 6;
 		List<ProductCategory> products = productCategoryService.selectProducts();
 		System.out.println("products size: " + products.size());
+		System.out.println("Get Page Count: " + pages.getPageCount());
 		
 		if(currentPagedListHolder==null) {
 			pages = new PagedListHolder<ProductCategory>(products);
