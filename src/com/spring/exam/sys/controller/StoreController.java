@@ -33,7 +33,6 @@ public class StoreController {
 	}
 	
 	/**
-	 * Khi nguoi dung mo trang store, trang web tu dong load trang dau tien
 	 * @param currentPage
 	 * @param option
 	 * @param model
@@ -54,15 +53,29 @@ public class StoreController {
 			request.getSession().setAttribute("pageHolder", pages);
 		} else {
 			pages = (PagedListHolder<?>) request.getSession().getAttribute("pageHolder");
-			int goToPage = page - 1;
+			int goToPage = page - 1; // Page list start with 0
 			if(goToPage <= pages.getPageCount() && goToPage >= 0) {
 				pages.setPage(goToPage);
 			}
 		}
 		
+		int begin = -1;
+		int end = -1;
 		int current = pages.getPage() + 1;
-		int begin = Math.max(1, current - products.size());
-		int end = Math.min(begin + 5, pages.getPageCount());
+		if(current == 1) { // 1st page
+			begin = Math.max(1, current - pages.getPageCount());
+			end = Math.min(begin + 1,  pages.getPageCount());
+		} else if(current > 1 && current < pages.getPageCount()) { // middle pages
+			begin = Math.max(1, current - 1);
+			end = Math.min(begin + 2,  pages.getPageCount());
+		} else { // last page
+			begin = Math.max(1, current - 1);
+			end = Math.min(begin + 2, pages.getPageCount());
+		}
+		
+		// int begin = Math.max(1, current - products.size());
+		// int begin = Math.max(1, current - 1);
+		// int end = Math.min(begin + 1, pages.getPageCount());
 		int totalPageCount = pages.getPageCount();
 		String baseUrl = "/store/page/";
 		
