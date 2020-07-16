@@ -8,40 +8,83 @@
 
 	<!-- store products -->
 	<div th:fragment="storeProducts" class="row">
+	
+		
+		
 		<!-- product -->
-		<div class="col-md-4 col-xs-6" th:each="product : ${products.pageList}">
-			<div class="product">
-				<div class="product-img">
-					<img src="./img/product01.png" th:src="@{/img/products/{productimg}(productimg=${product.image})}" alt="">
-					<div class="product-label">
-						<span class="sale">-30%</span>
-						<span class="new">NEW</span>
+		<th:block th:if="not ${#lists.isEmpty(searchResults)}">
+			<div class="col-md-4 col-xs-6" th:each="product : ${searchResults}">
+				<div class="product">
+					<div class="product-img">
+						<img src="./img/product01.png" th:src="@{/img/products/{productimg}(productimg=${product.image})}" alt="">
+						<div class="product-label">
+							<span class="sale">-30%</span>
+							<span class="new">NEW</span>
+						</div>
+					</div>
+					<div class="product-body">
+						<p class="product-category" th:text="'Category ' + ${product.category_name}">Category</p>
+						<h3 class="product-name"><a href="./product.html" th:href="@{/product(pid=${product.id})}" th:text="${product.name}">product name goes here</a></h3>
+						<th:block th:with="pprice=${product.price}">
+							<h4 class="product-price" th:text="${#numbers.formatDecimal(pprice, 3, 'COMMA', 0, 'POINT')} + ' VND'">$980.00 <del class="product-old-price">1.000.000 VND</del></h4>
+						</th:block>
+						<div class="product-rating">
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+						</div>
+						<div class="product-btns">
+							<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+							<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+							<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+						</div>
+					</div>
+					<div class="add-to-cart">
+						<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 					</div>
 				</div>
-				<div class="product-body">
-					<p class="product-category" th:text="'Category ' + ${product.category_name}">Category</p>
-					<h3 class="product-name"><a href="./product.html" th:href="@{/product(pid=${product.id})}" th:text="${product.name}">product name goes here</a></h3>
-					<th:block th:with="pprice=${product.price}">
-						<h4 class="product-price" th:text="${#numbers.formatDecimal(pprice, 3, 'COMMA', 0, 'POINT')} + ' VND'">$980.00 <del class="product-old-price">1.000.000 VND</del></h4>
-					</th:block>
-					<div class="product-rating">
-						<i class="fa fa-star"></i>
-						<i class="fa fa-star"></i>
-						<i class="fa fa-star"></i>
-						<i class="fa fa-star"></i>
-						<i class="fa fa-star"></i>
+			</div>		
+		</th:block>
+		
+		<th:block th:if="${#lists.isEmpty(searchResults)}">
+			<div class="col-md-4 col-xs-6" th:each="product : ${products.pageList}">
+				<div class="product">
+					<div class="product-img">
+						<img src="./img/product01.png" th:src="@{/img/products/{productimg}(productimg=${product.image})}" alt="">
+						<div class="product-label">
+							<span class="sale">-30%</span>
+							<span class="new">NEW</span>
+						</div>
 					</div>
-					<div class="product-btns">
-						<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-						<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-						<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+					<div class="product-body">
+						<p class="product-category" th:text="'Category ' + ${product.category_name}">Category</p>
+						<h3 class="product-name"><a href="./product.html" th:href="@{/product(pid=${product.id})}" th:text="${product.name}">product name goes here</a></h3>
+						<th:block th:with="pprice=${product.price}">
+							<h4 class="product-price" th:text="${#numbers.formatDecimal(pprice, 3, 'COMMA', 0, 'POINT')} + ' VND'">$980.00 <del class="product-old-price">1.000.000 VND</del></h4>
+						</th:block>
+						<div class="product-rating">
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+						</div>
+						<div class="product-btns">
+							<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+							<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+							<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+						</div>
 					</div>
-				</div>
-				<div class="add-to-cart">
-					<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+					<div class="add-to-cart">
+						<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+					</div>
 				</div>
 			</div>
-		</div>
+		</th:block>
+		
+		
 	</div>
 		<!-- /product -->
 

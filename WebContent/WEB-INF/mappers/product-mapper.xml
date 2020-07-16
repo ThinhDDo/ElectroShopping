@@ -29,10 +29,20 @@
 		AND p.category_id = c.category_id
 	</select>
 	
-	<select id="selectProductByName" parameterType="String" resultType="ProductCategory">
+	<select id="selectProductByName" parameterType="java.util.Map" resultType="ProductCategory">
 		SELECT id, name, quantity, price, description, manufacturer_id, c.category_id, category_name, image, image_detail 
 		FROM PRODUCT p, CATEGORY c 
-		WHERE NAME LIKE CONCAT('%', #{name}, '%')
+		WHERE p.category_id = c.category_id
+		AND NAME LIKE CONCAT('%', #{name}, '%')
+		<if test="category_id != 0">
+			AND c.category_id = #{category_id}
+		</if>
+	</select>
+
+	<select id="selectProductsByCategory" parameterType="String" resultType="ProductCategory">
+		SELECT id, name, quantity, price, description, manufacturer_id, c.category_id, c.category_name, image, image_detail 
+		FROM PRODUCT p, CATEGORY c
+		WHERE c.category_name LIKE #{category_name}
 		AND p.category_id = c.category_id
 	</select>
 </mapper>

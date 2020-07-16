@@ -11,6 +11,7 @@
 		<typeAlias type="com.spring.exam.sys.model.Product" alias="Product"/>
 		<typeAlias type="com.spring.exam.sys.model.ProductCategory" alias="ProductCategory"/>
 		<typeAlias type="com.spring.exam.sys.model.Manufacturer" alias="Manufacturer"/>
+		<typeAlias type="com.spring.exam.sys.model.Category" alias="Category"/>
 	</typeAliases>
 	
 </configuration>

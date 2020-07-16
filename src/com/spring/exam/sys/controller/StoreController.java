@@ -12,12 +12,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.spring.exam.sys.model.Category;
 import com.spring.exam.sys.model.ProductCategory;
 import com.spring.exam.sys.model.UserInfo;
 import com.spring.exam.sys.service.ProductCategoryService;
 import com.spring.exam.sys.service.UserService;
 
 @Controller
+@SessionAttributes(names = {"user", "categories", "category"})
 public class StoreController {
 	
 	@Autowired
@@ -26,10 +31,15 @@ public class StoreController {
 	@Autowired
 	private ProductCategoryService productCategoryService;
 	
-	@GetMapping(value = "/store")
-	public String openStore(HttpServletRequest request) {
+	@GetMapping(value = "/store/{cate}")
+	public String openStore(@PathVariable("cate") String category,
+							HttpServletRequest request, 
+							Model model) {
+		model.addAttribute("cate", category);
+		model.addAttribute("categories", productCategoryService.selectCategories());
+		model.addAttribute("category", new Category());
 		request.getSession().setAttribute("pageHolder", null);
-		return "redirect:/store/page/1";
+		return "redirect:/store/{cate}/page/1";
 	}
 	
 	/**
@@ -39,13 +49,16 @@ public class StoreController {
 	 * @param auth
 	 * @return
 	 */
-	@GetMapping(value="/store/page/{page}")
-	public String openStorePage(HttpServletRequest request,
+	@GetMapping(value="/store/{cate}/page/{page}")
+	public String openStorePage(@SessionAttribute("categories") List<Category> categories,
+								@SessionAttribute(name = "user", required = false) UserInfo userProfile,
+								HttpServletRequest request,
 								@PathVariable("page") int page,
+								@PathVariable("cate") String category_name,
 								Model model,
 								Authentication auth) {
 		PagedListHolder<?> pages;
-		List<ProductCategory> products = productCategoryService.selectProducts();
+		List<ProductCategory> products = productCategoryService.selectProductsByCategory(category_name);
 		
 		if(page==1) {
 			pages = new PagedListHolder<ProductCategory>(products);
@@ -72,20 +85,17 @@ public class StoreController {
 			begin = Math.max(1, current - 1);
 			end = Math.min(begin + 2, pages.getPageCount());
 		}
-		
-		// int begin = Math.max(1, current - products.size());
-		// int begin = Math.max(1, current - 1);
-		// int end = Math.min(begin + 1, pages.getPageCount());
+
 		int totalPageCount = pages.getPageCount();
-		String baseUrl = "/store/page/";
+		String baseUrl = "/store/"+ category_name +"/page/";
 		
-		UserInfo userProfile = null;
-		if(auth!=null) {
-			if(auth.isAuthenticated()) {
-				User loginUser = (User) auth.getPrincipal();
-				userProfile = userService.selectUserByName(loginUser.getUsername());
-			}
-		}
+//		UserInfo userProfile = null;
+//		if(auth!=null) {
+//			if(auth.isAuthenticated()) {
+//				User loginUser = (User) auth.getPrincipal();
+//				userProfile = userService.selectUserByName(loginUser.getUsername());
+//			}
+//		}
 		
 		model.addAttribute("beginIndex", begin);
 		model.addAttribute("endIndex", end);

@@ -419,8 +419,14 @@
 							</ul>
 						</div>
 						
-						<div th:replace="fragments/showProducts :: storeProducts" class="row"></div>
-						<div th:replace="fragments/pagination :: pagination" class="store-filter clearfix">
+						<!-- No product promt -->
+						<div th:if="${#lists.isEmpty(searchResults)}">
+							<img src="./img/no-product-found.png" th:src="@{/img/no-product-found.jpg}" class="img-fluid" alt="Responsive image">
+						</div>
+						<div th:if="not ${#lists.isEmpty(searchResults)}">
+							<div th:replace="fragments/showProducts :: storeProducts" class="row"></div>
+							<div th:replace="fragments/pagination :: pagination" class="store-filter clearfix">
+						</div>
 					</div>
 					<!-- /STORE -->
 				</div>

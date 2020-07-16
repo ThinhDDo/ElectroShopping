@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.exam.sys.dao.ProductCategoryDAO;
+import com.spring.exam.sys.model.Category;
 import com.spring.exam.sys.model.ProductCategory;
 
 @Service
@@ -35,13 +36,23 @@ public class ProductCategoryServiceImpl implements ProductCategoryService, Pagea
 	}
 
 	@Override
-	public List<ProductCategory> selectProductsByName(String name) {
-		return productCategoryDAO.selectProductByName(name);
+	public List<ProductCategory> selectProductsByName(String name, int category_id) {
+		return productCategoryDAO.selectProductByName(name, category_id);
 	}
 
 	@Override
 	public int getTotalPages() {
 		int pageSize = productCategoryDAO.selectProducts().size();
 		return pageSize % 2 == 0 ? pageSize/6 : (pageSize/6) + 1 ;
+	}
+
+	@Override
+	public List<Category> selectCategories() {
+		return productCategoryDAO.selectCategories();
+	}
+	
+	@Override
+	public List<ProductCategory> selectProductsByCategory(String category_name) {
+		return productCategoryDAO.selectProductsByCategory(category_name);
 	}
 }

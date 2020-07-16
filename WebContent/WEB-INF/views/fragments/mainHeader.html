@@ -15,7 +15,7 @@
 				<div class="col-md-3">
 					<div class="header-logo">
 						<a href="./index.html" th:href="@{/}" class="logo"> <img
-							src="./img/logo.png" alt="">
+							th:src="@{/img/logo.png}" alt="">
 						</a>
 					</div>
 				</div>
@@ -24,12 +24,16 @@
 				<!-- SEARCH BAR -->
 				<div class="col-md-6">
 					<div class="header-search">
-						<form method="post" action="#" th:action="@{/search}">
-							<select class="input-select">
+						<form method="post" action="#" th:action="@{/search}" th:object="${category}">
+						<th:block th:unless="${#lists.isEmpty(categories)}">
+							<select th:field="*{category_id}" class="input-select">
 								<option value="0">All Categories</option>
-								<option value="1">Category 01</option>
-								<option value="1">Category 02</option>
-							</select> <input class="input" name="searchProduct"
+								<th:block th:each="c : ${categories}">
+									<option th:value="${c.category_id}" value="0" th:text="${c.category_name}">Category xx</option>
+								</th:block>
+							</select>
+						</th:block>
+							<input class="input" name="searchProduct"
 								th:name="searchProduct" placeholder="Search here">
 							<button class="search-btn">Search</button>
 						</form>

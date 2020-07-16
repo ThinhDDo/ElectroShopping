@@ -1,11 +1,14 @@
 package com.spring.exam.sys.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.spring.exam.sys.model.Category;
 import com.spring.exam.sys.model.ProductCategory;
 
 @Repository
@@ -35,8 +38,21 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 	}
 
 	@Override
-	public List<ProductCategory> selectProductByName(String name) {
-		return sqlSession.selectList("ProductCategoryMapper.selectProductByName", name);
+	public List<ProductCategory> selectProductByName(String name, int category_id) {
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("name", name);
+		parameters.put("category_id", category_id + "");
+		return sqlSession.selectList("ProductCategoryMapper.selectProductByName", parameters);
+	}
+
+	@Override
+	public List<Category> selectCategories() {
+		return sqlSession.selectList("CategoryMapper.selectCategories");
+	}
+
+	@Override
+	public List<ProductCategory> selectProductsByCategory(String category_name) {
+		return sqlSession.selectList("ProductCategoryMapper.selectProductsByCategory", category_name);
 	}
 
 }
