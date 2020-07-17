@@ -298,8 +298,9 @@
 							<div class="add-to-cart">
 								<div class="qty-label">
 									Qty
-									<div class="input-number">
+									<div id="input-number" class="input-number">
 										<input class="pro-qty" type="number" value="0">
+										<input id="pro-id" type="text" value="1" th:value="${productDetail.id}" hidden="true">
 										<span class="qty-up">+</span>
 										<span class="qty-down">-</span>
 									</div>
@@ -827,7 +828,8 @@
 		<script th:src="@{/js/slick.min.js}" src="js/slick.min.js"></script>
 		<script th:src="@{/js/nouislider.min.js}" src="js/nouislider.min.js"></script>
 		<script th:src="@{/js/jquery.zoom.min.js}" src="js/jquery.zoom.min.js"></script>
+		<script th:src="@{/js/cart.js}" src="js/cart.js"></script>
 		<script th:src="@{/js/main.js}" src="js/main.js"></script>
-
+		
 	</body>
 </html>
