@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.exam.sys.model.Category;
 import com.spring.exam.sys.model.UserInfo;
@@ -20,7 +22,7 @@ import com.spring.exam.sys.service.ProductCategoryService;
 import com.spring.exam.sys.service.UserService;
 
 @Controller
-@SessionAttributes(names = {"user", "categories"})
+@SessionAttributes(names = {"user", "categories", "companyInfo"})
 public class HomeController {
 	@Autowired
 	private UserService userService;
@@ -73,5 +75,10 @@ public class HomeController {
 		model.addAttribute("searchResults", productCategoryService.selectProductsByName(searchProduct, category.getCategory_id()));
 		
 		return "search";
+	}
+	
+	@GetMapping(value="/test")
+	public @ResponseBody String test(RedirectAttributes redirectAttributes) {
+		return "This is a test string sample";
 	}
 }

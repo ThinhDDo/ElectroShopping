@@ -1,6 +1,6 @@
 package com.spring.exam.sys.model;
 
-import java.util.Date;
+import java.time.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,8 +10,8 @@ public class UserInfo {
 	private String phone;
 	private String address;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date birthday;
+	@DateTimeFormat(pattern = "yyyy-MM-dd") // This is datetime Mysql-based format
+	private LocalDate birthday;
 	
 	private String username;
 	private String password;
@@ -21,7 +21,7 @@ public class UserInfo {
 	public UserInfo() {
 		super();
 	}
-	public UserInfo(String fullname, String email, String phone, String address, Date birthday, String username,
+	public UserInfo(String fullname, String email, String phone, String address, LocalDate birthday, String username,
 			String password, String avata, int role_id, String role) {
 		super();
 		this.fullname = fullname;
@@ -59,10 +59,10 @@ public class UserInfo {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(Date birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 	public String getUsername() {

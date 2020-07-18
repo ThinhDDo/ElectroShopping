@@ -22,7 +22,7 @@ import com.spring.exam.sys.service.ProductCategoryService;
 import com.spring.exam.sys.service.UserService;
 
 @Controller
-@SessionAttributes(names = {"user", "categories", "category"})
+@SessionAttributes(names = {"user", "categories", "companyInfo"})
 public class StoreController {
 	
 	@Autowired
@@ -36,8 +36,6 @@ public class StoreController {
 							HttpServletRequest request, 
 							Model model) {
 		model.addAttribute("cate", category);
-		model.addAttribute("categories", productCategoryService.selectCategories());
-		model.addAttribute("category", new Category());
 		request.getSession().setAttribute("pageHolder", null);
 		return "redirect:/store/{cate}/page/1";
 	}
@@ -50,8 +48,8 @@ public class StoreController {
 	 * @return
 	 */
 	@GetMapping(value="/store/{cate}/page/{page}")
-	public String openStorePage(@SessionAttribute("categories") List<Category> categories,
-								@SessionAttribute(name = "user", required = false) UserInfo userProfile,
+	public String openStorePage(
+								//@SessionAttribute(name = "user", required = false) UserInfo userProfile,
 								HttpServletRequest request,
 								@PathVariable("page") int page,
 								@PathVariable("cate") String category_name,
@@ -103,7 +101,8 @@ public class StoreController {
 		model.addAttribute("totalPageCount", totalPageCount);
 		model.addAttribute("products", pages);
 		model.addAttribute("baseUrl", baseUrl);
-		model.addAttribute("user", userProfile);
+		//model.addAttribute("user", userProfile);
+		model.addAttribute("category", new Category());
 		return "store";
 	}	
 }

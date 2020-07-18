@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<nav th:fragment="navigation" id="navigation">
+			<!-- container -->
+			<div class="container">
+				<!-- responsive-nav -->
+				<div id="responsive-nav">
+					<!-- NAV -->
+					<ul class="main-nav nav navbar-nav">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#">Hot Deals</a></li>
+						<th:block th:unless="${#lists.isEmpty(categories)}">
+							<li th:each="category : ${categories}"><a href="#" th:href="@{/store/{cate}(cate=${category.category_name})}" th:text="${category.category_name}">Category xx</a></li>
+						</th:block>
+						<li><a href="#" th:text="${test!=null} ? ${test} : ''"></a></li>
+					</ul>
+					<!-- /NAV -->
+				</div>
+				<!-- /responsive-nav -->
+			</div>
+			<!-- /container -->
+		</nav>
+</body>
+</html>

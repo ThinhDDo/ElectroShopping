@@ -33,14 +33,14 @@ public class ProfileController {
 	
 	@GetMapping(value="/profile")
 	public String profile(
-			@SessionAttribute("loginUser") User user,
+			@SessionAttribute("user") UserInfo userInfo,
 			@RequestParam(name = "user", required = false, defaultValue = "") String username,
 			@RequestParam(name = "updated", required = false, defaultValue = "") String update,
 			@RequestParam(name = "avata", required = false, defaultValue = "") String avata,
 			Model model) {
 		
 		if(!username.equals("")) {
-			UserInfo userInfo = userService.selectUserByName(user.getUsername());
+			// UserInfo userInfo = userService.selectUserByName(user.getUsername());
 			model.addAttribute("profile", userInfo);
 		}
 		
