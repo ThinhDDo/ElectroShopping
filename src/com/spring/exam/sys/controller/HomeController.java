@@ -1,12 +1,13 @@
 package com.spring.exam.sys.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -17,15 +18,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
 import com.spring.exam.sys.model.Category;
+import com.spring.exam.sys.model.ProductCategory;
 import com.spring.exam.sys.model.UserInfo;
 import com.spring.exam.sys.service.ProductCategoryService;
 import com.spring.exam.sys.service.UserService;
 
 @Controller
-@SessionAttributes(names = {"user", "categories", "companyInfo", "cartQty"})
+@SessionAttributes(names = {"user", "categories", "companyInfo", "qtyHeader"})
 public class HomeController {
 	@Autowired
 	private UserService userService;
@@ -66,9 +70,9 @@ public class HomeController {
 		logger.info("COOKIE: " + cookie);
 		if(!cookie.equals("")) {
 			String[] cart = cookie.split("-");
-			model.addAttribute("cartQty", cart.length);
+			model.addAttribute("qtyHeader", cart.length);
 		} else {			
-			model.addAttribute("cartQty", 0);
+			model.addAttribute("qtyHeader", 0);
 		}
 		
 		return "index";
@@ -94,11 +98,20 @@ public class HomeController {
 	}
 	
 	@GetMapping(value="/test")
-	public @ResponseBody String test(@CookieValue(name="cart", defaultValue="", required = false) String cookie,
-									 Model model) {
-		if(cookie.equals("")) {
-			return "Your cart is empty";	
-		}
-		return "This is your cart: " + cookie;
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public List<ProductCategory> test(@CookieValue(name="cart", defaultValue="", required = false) String cookie,
+									Model model) {
+		logger.info("MY CART: " + cookie); 
+		List<ProductCategory> list = new ArrayList<ProductCategory>();
+		ProductCategory p1 = productCategoryService.selectProductById(13);
+		ProductCategory p2 = productCategoryService.selectProductById(14);
+		list.add(p1);list.add(p2);
+		model.addAttribute("test", list);
+		model.addAttribute("amount", 1);
+		logger.info("PRODUCTS SIZE: " + list.size());
+		
+		return list;
 	}
+
 }

@@ -2,29 +2,22 @@ package com.spring.exam.sys.controller;
 
 import java.util.List;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.spring.exam.sys.model.Category;
 import com.spring.exam.sys.model.ProductCategory;
-import com.spring.exam.sys.model.UserInfo;
 import com.spring.exam.sys.service.ProductCategoryService;
-import com.spring.exam.sys.service.UserService;
 
 @Controller
-@SessionAttributes(names = {"user", "categories", "companyInfo", "cartQty"})
+@SessionAttributes(names = {"user", "categories", "qtyHeader", "companyInfo"})
 public class StoreController {
 	
 	@Autowired
@@ -32,9 +25,9 @@ public class StoreController {
 	
 	@GetMapping(value = "/store/{cate}")
 	public String openStore(@PathVariable("cate") String category,
-							HttpServletRequest request,
-							HttpServletResponse response,
-							Model model) {
+							HttpServletRequest request, // initiate the pagination
+							Model model, // add variable to URI
+							RedirectAttributes ra) { // add ra to remove append url
 		model.addAttribute("cate", category);
 		request.getSession().setAttribute("pageHolder", null);
 		return "redirect:/store/{cate}/page/1";

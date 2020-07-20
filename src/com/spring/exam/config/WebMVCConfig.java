@@ -37,6 +37,7 @@ public class WebMVCConfig implements WebMvcConfigurer{
 		templateResolver.setSuffix(".html");
 		// HTML is the default value, added here for the sale of clasrity
 		templateResolver.setTemplateMode(TemplateMode.HTML);
+		templateResolver.setCharacterEncoding("UTF-8"); // render unicode
 		templateResolver.setCacheable(true);
 		return templateResolver;
 	}
@@ -53,6 +54,7 @@ public class WebMVCConfig implements WebMvcConfigurer{
 	public ThymeleafViewResolver viewResolver() {
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 		viewResolver.setTemplateEngine(templateEngine());
+		viewResolver.setCharacterEncoding("UTF-8"); // render unicode
 		return viewResolver;
 	}
 }

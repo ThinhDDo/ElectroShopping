@@ -2136,6 +2136,94 @@ textarea.input {
     opacity:0.6;
 }
 
+/* PURCHASE TEMPLATE : MY CUSTOM CSS */
+.cart-header {
+  background: #D10024;
+}
+
+.price-value {
+	color: #D10024;
+}
+
+div.cart-items {
+	border: 0.5px solid black;
+}
+
+div.cart-banner {
+	margin-top: 6px;
+}
+
+.cart .cart-items .cart-item .cart-item-stt {
+  display: flex;
+  justify-content: center;
+  padding-top: 35px;
+  padding-right: 5px;
+}
+
+.cart .cart-items .cart-item .cart-item-stt > *{
+  color: black;
+  margin: 0;
+}
+
+.cart .cart-header .cart-header-item, 
+.cart .cart-items .cart-item .cart-item-price,
+.cart .cart-items .cart-item .cart-item-amount {
+  padding: 15px 0;
+  text-align: center;
+}
+
+.cart .cart-items .cart-item .cart-item-price > p {
+  color: red;
+  font-weight: bold;
+  font-size: 15px;
+  text-align: right;
+  margin-right: 20px;
+}
+
+.cart .cart-header .cart-header-item div > h3{
+  margin: 0px 5px;
+  color: white;
+}
+
+.cart .cart-items .img-cart-item {
+  max-width: 100px;
+  max-height: 100px;
+  margin: 10px 0;
+}
+
+.cart-items {
+  background: #fffff0;
+  margin-top: 10px;
+}
+
+/* PRICES INFO PURCHASE : MY CUSTOM CSS */
+/* RIGHT INFO */
+.total-prices-info {
+  margin-left: 15px;
+}
+
+.total-prices-info .prices-info ul.prices-items {
+  padding: 15px 15px;
+  border-bottom: 1px solid grey;
+  background: grey;
+  margin-bottom: 5px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, .8);
+}
+
+.total-prices-info .prices-info .prices-items li.prices-item {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+li.prices-item > span {
+  color: white;
+}
+
+.cart-submit a {
+  width: 100%; 
+  padding: 12px 6px;
+}
 /*=========================================================
 	13 -> RESPONSIVE
 ===========================================================*/

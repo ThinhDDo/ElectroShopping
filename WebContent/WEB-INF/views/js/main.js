@@ -11,7 +11,6 @@
 	$('.cart-dropdown').on('click', function (e) {
 		e.stopPropagation();
 	});
-
 	/////////////////////////////////////////
 
 	// Products Slick

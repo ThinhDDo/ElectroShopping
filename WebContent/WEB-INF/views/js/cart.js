@@ -52,4 +52,33 @@ function getCookie(cname) {
             alert("BUY AT LEAST 1 PRODUCTS");
         }
     });
+
+    // Show products added to cart (/index[Dropdown])
+    $('.dropdown').on('click', function (e) {
+        // console.log(getCookie("cart"));
+        var mycart = decodeURIComponent(getCookie("cart"));
+        console.log("My cart: " + mycart);
+        if(mycart!="") {
+            var httpRequest = new XMLHttpRequest();
+            var url = "/SpringMVC/test";
+            httpRequest.responseType = 'json';
+
+            // check response
+            httpRequest.onreadystatechange = function () {
+            	if(httpRequest.status==200 && httpRequest.readyState==4) {
+                    console.log("RESPONSE SUCCESSFULLY");
+                    var list = httpRequest.response;
+                    console.log(list[0].name);
+                    console.log(list[1].name);
+                    console.log(list[0].image);
+                    
+                    document.getElementById('product-widget-img').setAttribute("src", "img/product09.png");
+                }
+            }
+            httpRequest.open("GET", url);
+            httpRequest.send();
+        } else {
+            console.log("no products found!!!");
+        }
+	});
 })(jQuery);
