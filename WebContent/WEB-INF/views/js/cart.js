@@ -2,7 +2,7 @@ function setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    document.cookie = cname + "=" + encodeURIComponent(cvalue) + ";" + expires + ";path=/SpringMVC";
 }
 
 function getCookie(cname) {
@@ -28,24 +28,24 @@ function getCookie(cname) {
         let productId = document.getElementById('pro-id').value;
 
         // Test: Add new product
-        let new_product = productId + ':' + q;
+        let new_product = productId + ":" + q;
 
         // Check if cookie existed
-        myCart = getCookie('cart').split(',');
+        myCart = decodeURIComponent(getCookie("cart"));
         if(q > 0) {
-            if(myCart == '') {
+            if(myCart == "") {
                 alert("YOU CART IS CREATED");
     
                 // add New product to cart
                 document.cookie = setCookie("cart", new_product);
                 console.log('Add new product to cart: [' + new_product + ']');
             } else {
-                if(myCart.includes(new_product)) {
+                if(myCart.includes(productId)) {
                     alert('THIS PRODUCT iS ADDED TO YOUR CART');
                 } else {
-                    myCart = myCart + ',' + new_product;
-                    alert('Add to CART SUCCESSFULLY');
-                    setCookie('cart', myCart);
+                    myCart = myCart + "-" + new_product;
+                    console.log('Add product to cart: [' + new_product + ']');
+                    setCookie("cart", myCart);
                 }
             }
         } else {

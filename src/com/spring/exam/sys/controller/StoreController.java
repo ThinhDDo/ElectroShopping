@@ -2,7 +2,9 @@ package com.spring.exam.sys.controller;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
@@ -22,18 +24,16 @@ import com.spring.exam.sys.service.ProductCategoryService;
 import com.spring.exam.sys.service.UserService;
 
 @Controller
-@SessionAttributes(names = {"user", "categories", "companyInfo"})
+@SessionAttributes(names = {"user", "categories", "companyInfo", "cartQty"})
 public class StoreController {
-	
-	@Autowired
-	private UserService userService;
 	
 	@Autowired
 	private ProductCategoryService productCategoryService;
 	
 	@GetMapping(value = "/store/{cate}")
 	public String openStore(@PathVariable("cate") String category,
-							HttpServletRequest request, 
+							HttpServletRequest request,
+							HttpServletResponse response,
 							Model model) {
 		model.addAttribute("cate", category);
 		request.getSession().setAttribute("pageHolder", null);
@@ -103,6 +103,7 @@ public class StoreController {
 		model.addAttribute("baseUrl", baseUrl);
 		//model.addAttribute("user", userProfile);
 		model.addAttribute("category", new Category());
+		
 		return "store";
 	}	
 }

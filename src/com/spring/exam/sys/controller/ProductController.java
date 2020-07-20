@@ -5,12 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.spring.exam.sys.model.Category;
 import com.spring.exam.sys.model.Product;
 import com.spring.exam.sys.model.ProductCategory;
 import com.spring.exam.sys.service.ProductCategoryService;
 
 @Controller
+@SessionAttributes(names = {"user", "categories", "companyInfo", "cartQty"})
 public class ProductController {
 	
 	@Autowired
@@ -25,6 +28,7 @@ public class ProductController {
 			model.addAttribute("productDetail", product);
 		}
 		
+		model.addAttribute("category", new Category());
 		return "product";
 	}
 }

@@ -40,21 +40,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		// Grant access to specific url (Mapping path ->> role)
 		http.authorizeRequests()
-			.antMatchers("/login").permitAll()
-			.antMatchers("/css/**").permitAll()
-			.antMatchers("/js/**").permitAll()
-			.antMatchers("/img/**").permitAll()
-			.antMatchers("/fonts/**").permitAll()
-			.antMatchers("/register").permitAll()
+//			.antMatchers("/login").permitAll()
+//			.antMatchers("/css/**").permitAll()
+//			.antMatchers("/js/**").permitAll()
+//			.antMatchers("/img/**").permitAll()
+//			.antMatchers("/fonts/**").permitAll()
 			.antMatchers("/profile").hasAnyRole("USER", "ADMIN")
-			.antMatchers("/index", "/").permitAll()
+//			.antMatchers("/store/**", "/search", "/checkout", "/product", "/register").permitAll()
 		.and()
 			.formLogin()
 			.loginPage("/login") // Login Controller
 			.loginProcessingUrl("/login-form") // Form action
 			.usernameParameter("username") // Form field
 			.passwordParameter("password") // Form field
-			.defaultSuccessUrl("/index") // request controller if success
+			.defaultSuccessUrl("/") // request controller if success
 			.failureUrl("/login?error=true") // request controller if fail (with param)
 			.permitAll()
 		.and()
