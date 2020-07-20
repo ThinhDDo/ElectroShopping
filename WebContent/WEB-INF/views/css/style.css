@@ -2172,6 +2172,11 @@ div.cart-banner {
   text-align: center;
 }
 
+input#item-amount {
+	box-sizing: border-box;
+	width: 100%;
+}
+
 .cart .cart-items .cart-item .cart-item-price > p {
   color: red;
   font-weight: bold;

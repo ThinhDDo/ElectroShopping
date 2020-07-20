@@ -125,9 +125,10 @@
 										Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
 										Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. 
 									</div>
-									<div class="col-lg-2 cart-item-amount" th:text="'x' + ${item.quantity}">
-										x10
+									<div class="col-lg-2 cart-item-amount">
+										<input type="number" id="item-amount" value="0" th:value="${item.quantity}">
 									</div>
+									
 									<div class="col-lg-3 cart-item-price">
 										<p th:text="${#numbers.formatDecimal(item.price, 3, 'COMMA', 0, 'POINT') + 'đ'}">10.000.000.000 VND</p>
 									</div>
