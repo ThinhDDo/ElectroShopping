@@ -3,11 +3,16 @@ package com.spring.exam.sys.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.spring.exam.sys.model.Category;
@@ -75,5 +80,29 @@ public class CartController {
 	public String checkOut(Model model) {
 		model.addAttribute("category", new Category()); // For searching
 		return "checkout";
+	}
+	
+	@GetMapping(value="/delete")
+	public String deleteItem(@RequestParam(value="item", defaultValue="", required=true) String delItem,
+							 @CookieValue(name="cart", defaultValue="", required=true) String cookie,
+							 HttpServletResponse response) {
+		
+		// Delete item from cookie
+		String[] items = cookie.split("-");
+		for(int itemIdx=0; itemIdx < items.length; itemIdx++) {
+			String[] item = items[itemIdx].split(":");
+			// id: item[0]
+			// quantity: item[1]
+			if(delItem.equals(item[0])) {
+				
+				cookie = cookie.replaceAll(item[0], "")
+		                .replaceAll("--", "-")
+		                .replaceAll("[-]$", "")
+		                .replaceAll("^[-]", "");
+				response.addCookie(new Cookie("cart", cookie));
+			}
+		}
+		
+		return "redirect:/cart";
 	}
 }

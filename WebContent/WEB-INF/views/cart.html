@@ -121,9 +121,14 @@
 											<img th:src="@{/img/products/{img}(img=${item.image})}" src="img/products/iphone-se-2020-do-400x460-400x460.png" alt="..." class="img-cart-item">
 										</a>
 									</div>
-									<div class="col-lg-4 cart-item-name" style="text-align: left;" th:text="${item.name}">
-										Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-										Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. 
+									<div class="col-lg-4 cart-item-name" style="text-align: left;">
+										<div class="row p-2" th:text="${item.name}">
+											Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+										</div>
+										<div class="row p-2 options">
+											<a href="#" th:href="@{/delete(item=${item.id})}" class="mr-2">Xoá</a> - 
+											<a href="#" class="ml-2">Thêm vào Wishlist</a>
+										</div>
 									</div>
 									<div class="col-lg-2 cart-item-amount">
 										<input type="number" id="item-amount" value="0" th:value="${item.quantity}">
