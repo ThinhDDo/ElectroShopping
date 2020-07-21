@@ -2201,6 +2201,11 @@ input#item-amount {
   margin-top: 10px;
 }
 
+.cart-item div.options > a{
+	color: blue;
+	text-decoration: none;
+}
+
 /* PRICES INFO PURCHASE : MY CUSTOM CSS */
 /* RIGHT INFO */
 .total-prices-info {
