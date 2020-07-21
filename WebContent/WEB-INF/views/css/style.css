@@ -2174,7 +2174,7 @@ div.cart-banner {
 
 input#item-amount {
 	box-sizing: border-box;
-	width: 100%;
+	width: 50%;
 }
 
 .cart .cart-items .cart-item .cart-item-price > p {

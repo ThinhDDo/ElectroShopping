@@ -23,13 +23,18 @@ DROP TABLE IF EXISTS `cart`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cart` (
-  `cart_id` varchar(10) NOT NULL,
-  `amount` int NOT NULL,
-  `price` float NOT NULL,
+  `cart_id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(256) DEFAULT NULL,
+  `ship_id` int DEFAULT NULL,
+  `cart_date` date DEFAULT NULL,
+  `city` varchar(256) DEFAULT NULL,
+  `country` varchar(256) DEFAULT NULL,
+  `zipcode` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`cart_id`),
   KEY `username` (`username`),
-  CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE
+  KEY `ship_id` (`ship_id`),
+  CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE,
+  CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`ship_id`) REFERENCES `shipment` (`ship_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -43,29 +48,30 @@ LOCK TABLES `cart` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `cart_phone`
+-- Table structure for table `cart_detail`
 --
 
-DROP TABLE IF EXISTS `cart_phone`;
+DROP TABLE IF EXISTS `cart_detail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cart_phone` (
-  `cart_id` varchar(10) NOT NULL,
-  `phone_id` int NOT NULL,
+CREATE TABLE `cart_detail` (
+  `cart_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `amount` int DEFAULT NULL,
   KEY `cart_id` (`cart_id`),
-  KEY `phone_id` (`phone_id`),
-  CONSTRAINT `cart_phone_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`) ON UPDATE CASCADE,
-  CONSTRAINT `cart_phone_ibfk_2` FOREIGN KEY (`phone_id`) REFERENCES `product` (`id`) ON UPDATE CASCADE
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `cart_detail_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`) ON UPDATE CASCADE,
+  CONSTRAINT `cart_detail_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `cart_phone`
+-- Dumping data for table `cart_detail`
 --
 
-LOCK TABLES `cart_phone` WRITE;
-/*!40000 ALTER TABLE `cart_phone` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cart_phone` ENABLE KEYS */;
+LOCK TABLES `cart_detail` WRITE;
+/*!40000 ALTER TABLE `cart_detail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cart_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -142,42 +148,6 @@ INSERT INTO `manufacturer` VALUES (1,'Samsung','Samsung42.jpg'),(2,'IPhone','iPh
 UNLOCK TABLES;
 
 --
--- Table structure for table `phone`
---
-
-DROP TABLE IF EXISTS `phone`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `phone` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(256) NOT NULL,
-  `quantity` int NOT NULL,
-  `price` float NOT NULL,
-  `description` varchar(1000) DEFAULT NULL,
-  `manufacturer_id` int DEFAULT NULL,
-  `image` varchar(100) NOT NULL,
-  `image_detail` varchar(100) DEFAULT NULL,
-  `discount_id` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `manufacturer` (`manufacturer_id`),
-  KEY `discount_id` (`discount_id`),
-  CONSTRAINT `phone_ibfk_1` FOREIGN KEY (`manufacturer_id`) REFERENCES `manufacturer` (`manufacturer_id`),
-  CONSTRAINT `phone_ibfk_2` FOREIGN KEY (`discount_id`) REFERENCES `discount` (`discount_id`),
-  CONSTRAINT `phone_ibfk_3` FOREIGN KEY (`discount_id`) REFERENCES `discount` (`discount_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `phone`
---
-
-LOCK TABLES `phone` WRITE;
-/*!40000 ALTER TABLE `phone` DISABLE KEYS */;
-INSERT INTO `phone` VALUES (13,'Xiaomi Redmi 9 (4GB/64GB)',10,3999000,'Màn hình 6.53, Camera sau Chính 13 MP & Phụ 8 MP, 5 MP, 2 MP, Pin 5020 mAh',4,'xiaomi-redmi-9-(10).jpg','',NULL),(14,'Samsung Galaxy A31',10,5840000,'Super AMOLED, 6.4, 	Android 10, Full HD+, Chính 48 MP & Phụ 8 MP, 5 MP, 5 MP, Camera sau 20MP',1,'samsung-galaxy-a21s-055620-045627-400x460.png','',NULL),(15,'Phone SE 256GB 2020',10,17490000,'	IPS LCD, 4.7\", Retina, iOS 13, 	12 MP, 	Apple A13 Bionic 6 nhân, 3GB/256GB',2,'iphone-7-gold-400x460.png','',NULL),(16,'Vivo V19',10,8590000,'Super AMOLED, 6.4, Android 10, Full HD+, Chính 48 MP & Phụ 8 MP, 5 MP, 5 MP, Camera sau 20MP, 8 GB/128GB',3,'vivo-y30-xanh-400x460-400x460.png','',NULL),(17,'OPPO A92',10,6490000,'	TFT LCD, 6.5\", Full HD+, Android 10, Chính 48 MP & Phụ 8 MP, 2 MP, 2 MP, Snapdragon 665 8 nhân, 8 GB/128GB',5,'oppo-a92-tim-400x460-400x460.png','',NULL),(18,'Vsmart Star 4',10,2190000,'IPS LCD, 6.09, Android 10, Chính 8 MP & Phụ 5 MP, MediaTek Helio P35 8 nhân, 2 GB/32GB',6,'vsmart-star-4-den-400x460-400x460.png','',NULL),(19,'iPhone SE 64GB (2020)',10,12490000,'IPS LCD, 4.7, Retina, iOS 13, 12/7MP, Apple A13 Bionic 6 nhân, 3/64GB',2,'iphone-se-2020-do-400x460-400x460.png','',NULL);
-/*!40000 ALTER TABLE `phone` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `product`
 --
 
@@ -240,6 +210,30 @@ INSERT INTO `role` VALUES (1,'USER'),(2,'ADMIN');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `shipment`
+--
+
+DROP TABLE IF EXISTS `shipment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `shipment` (
+  `ship_id` int NOT NULL AUTO_INCREMENT,
+  `address` varchar(256) DEFAULT NULL,
+  `notes` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`ship_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `shipment`
+--
+
+LOCK TABLES `shipment` WRITE;
+/*!40000 ALTER TABLE `shipment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `shipment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -282,4 +276,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-14 17:45:15
+-- Dump completed on 2020-07-21 17:38:04

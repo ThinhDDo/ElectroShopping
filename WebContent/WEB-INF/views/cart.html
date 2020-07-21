@@ -87,30 +87,35 @@
 				<div class="col-lg-8 container">
 					
 						<!-- cart header -->
-						<div class="row cart-header">
-							<div class="row cart-header-item">
-								<div class="col-lg-1">
-									<h3>STT</h3>
-								</div>
-								<div class="col-lg-2"  style="text-align: left;">
-									<h3>Product</h3>
-								</div>
-								<div class="col-lg-4">
-									<h3>...</h3>
-								</div>
-								<div class="col-lg-2">
-									<h3>Amount</h3>
-								</div>
-								<div class="col-lg-3">
-									<h3>Price</h3>
-								</div>
-							</div>
-						</div>
+<!-- 						<div class="row cart-header"> -->
+<!-- 							<div class="row cart-header-item"> -->
+<!-- 								<div class="col-lg-1"> -->
+<!-- 									<h3>stt</h3> -->
+<!-- 								</div> -->
+<!-- 								<div class="col-lg-2"  style="text-align: left;"> -->
+<!-- 									<h3>Sản phẩm</h3> -->
+<!-- 								</div> -->
+<!-- 								<div class="col-lg-4"> -->
+<!-- 									<h3> </h3> -->
+<!-- 								</div> -->
+<!-- 								<div class="col-lg-3"> -->
+<!-- 									<h3>Đơn giá</h3> -->
+<!-- 								</div> -->
+<!-- 								<div class="col-lg-2"> -->
+<!-- 									<h3>Số lượng</h3> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 						<!-- /cart header -->
 
 						<!-- cart items 1st day -->
 						<div class="row cart-items">
 							<!-- /cart item -->
+							<th:block th:if="${#lists.isEmpty(mycart)}">
+								<div class="col-lg-12">
+									<img style="width:inherit;" class="img-empty" th:src="@{/img/empty_cart.jpg}" />
+								</div>
+							</th:block>
 							<th:block th:unless="${#lists.isEmpty(mycart)}">
 								<div class="row cart-item" th:each="item,iter : ${mycart}">
 									<div class="col-lg-1 cart-item-stt">
@@ -130,12 +135,13 @@
 											<a href="#" class="ml-2">Thêm vào Wishlist</a>
 										</div>
 									</div>
-									<div class="col-lg-2 cart-item-amount">
-										<input type="number" id="item-amount" value="0" th:value="${item.quantity}">
-									</div>
 									
 									<div class="col-lg-3 cart-item-price">
 										<p th:text="${#numbers.formatDecimal(item.price, 3, 'COMMA', 0, 'POINT') + 'đ'}">10.000.000.000 VND</p>
+									</div>
+									
+									<div class="col-lg-2 cart-item-amount">
+										<input type="number" id="item-amount" value="0" th:value="${item.quantity}">
 									</div>
 								</div>
 							</th:block>
@@ -207,7 +213,7 @@
 						<!-- /cart header -->
 						
 						<!-- banner cart info -->
-						<div class="row cart-banner">
+						<div class="row cart-banner" th:if="${numberOfProducts!=0}">
 							<div class="col-lg-12 col-md-6">
 								<div class="text-right">
 									<h3>Tổng số lượng sản phẩm: <span th:text="${numberOfProducts}"></span></h3>
@@ -239,7 +245,7 @@
 							</div>
 						</div>
 						<div class="row cart-submit">
-							<a href="#" class="btn btn-danger">Purchase</a>
+							<a href="#" th:href="@{/checkout}" class="btn btn-danger">Purchase</a>
 						</div>
 					</div>
 				</div>

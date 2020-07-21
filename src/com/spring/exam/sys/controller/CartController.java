@@ -20,7 +20,7 @@ import com.spring.exam.sys.model.ProductCategory;
 import com.spring.exam.sys.service.ProductCategoryServiceImpl;
 
 @Controller
-@SessionAttributes(names = {"user", "categories", "companyInfo", "qtyHeader"})
+@SessionAttributes(names = {"user", "categories", "companyInfo", "qtyHeader", "mycart", "totalPrices"})
 public class CartController {
 	
 	@Autowired
@@ -36,11 +36,14 @@ public class CartController {
 						   Model model) {
 		model.addAttribute("category", new Category()); // For searching
 		
+		// Initiate entry data
 		List<ProductCategory> products = new ArrayList<>();
+		int numberOfProducts = 0; // The amount of products that user bought
+		double totalPrices = 0.0; // Temporary Total Prices (before sale)
+		
 		if(!cookie.equals("")) {
 			String[] cart = cookie.split("-"); // id:quantity
-			int numberOfProducts = 0; // The amount of products that user bought
-			double totalPrices = 0.0; // Temporary Total Prices (before sale)
+			
 			
 			for(String item : cart) {
 				String[] productValue = item.split(":");
@@ -59,15 +62,12 @@ public class CartController {
 				// Add to list
 				products.add(product);
 			}
-			
-			// Total price 
-			
-			
-			// Add ModelAndView
-			model.addAttribute("numberOfProducts", numberOfProducts);
-			model.addAttribute("mycart", products);
-			model.addAttribute("totalPrices", totalPrices);
 		}
+		
+		// Add ModelAndView
+		model.addAttribute("numberOfProducts", numberOfProducts);
+		model.addAttribute("mycart", products);
+		model.addAttribute("totalPrices", totalPrices);
 		return "cart";
 	}
 	
@@ -77,11 +77,25 @@ public class CartController {
 	 * @return
 	 */
 	@GetMapping(value="/checkout")
-	public String checkOut(Model model) {
+	public String checkOut(@CookieValue(name="cart", defaultValue="", required=false) String cookie,
+						   Model model) {
+		// Create essential model
 		model.addAttribute("category", new Category()); // For searching
+		
+		// Get Cookie cart: mycart SessionAttributes
+		
 		return "checkout";
 	}
 	
+	
+	/**
+	 * Delete a product from cart list
+	 * Login not required
+	 * @param delItem
+	 * @param cookie
+	 * @param response
+	 * @return
+	 */
 	@GetMapping(value="/delete")
 	public String deleteItem(@RequestParam(value="item", defaultValue="", required=true) String delItem,
 							 @CookieValue(name="cart", defaultValue="", required=true) String cookie,
@@ -95,11 +109,12 @@ public class CartController {
 			// quantity: item[1]
 			if(delItem.equals(item[0])) {
 				
-				cookie = cookie.replaceAll(item[0], "")
+				cookie = cookie.replaceAll(items[itemIdx], "")
 		                .replaceAll("--", "-")
 		                .replaceAll("[-]$", "")
 		                .replaceAll("^[-]", "");
 				response.addCookie(new Cookie("cart", cookie));
+				break;
 			}
 		}
 		

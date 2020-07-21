@@ -12,6 +12,9 @@
 		<typeAlias type="com.spring.exam.sys.model.ProductCategory" alias="ProductCategory"/>
 		<typeAlias type="com.spring.exam.sys.model.Manufacturer" alias="Manufacturer"/>
 		<typeAlias type="com.spring.exam.sys.model.Category" alias="Category"/>
+		<typeAlias type="com.spring.exam.sys.model.Cart" alias="Cart"/>
+		<typeAlias type="com.spring.exam.sys.model.CartProductDetails" alias="CartProductDetails"/>
+		<typeAlias type="com.spring.exam.sys.model.Shipment" alias="Shipment"/>
 	</typeAliases>
 	
 </configuration>

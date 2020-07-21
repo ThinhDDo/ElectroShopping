@@ -39,7 +39,7 @@
 		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->
-			<div id="top-header">
+			<div th:replace="fragments/topHeader :: topHeader" id="top-header">
 				<div class="container">
 					<ul class="header-links pull-left">
 						<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
@@ -55,7 +55,7 @@
 			<!-- /TOP HEADER -->
 
 			<!-- MAIN HEADER -->
-			<div id="header">
+			<div th:replace="fragments/mainHeader :: mainHeader" id="header">
 				<!-- container -->
 				<div class="container">
 					<!-- row -->
@@ -163,7 +163,7 @@
 		<!-- /HEADER -->
 
 		<!-- NAVIGATION -->
-		<nav id="navigation">
+		<nav th:replace="fragments/navigation :: navigation" id="navigation">
 			<!-- container -->
 			<div class="container">
 				<!-- responsive-nav -->
@@ -318,14 +318,14 @@
 								<div><strong>TOTAL</strong></div>
 							</div>
 							<div class="order-products">
-								<div class="order-col">
-									<div>1x Product Name Goes Here</div>
-									<div>$980.00</div>
+								<div class="order-col" th:each="item,iter : ${mycart}">
+									<div th:text="${item.quantity} + 'x ' + ${item.name}">1x Product Name Goes Here</div>
+									<div th:text="${#numbers.formatDecimal(item.price * item.quantity, 3, 'COMMA', 0, 'POINT')} + 'đ'">$980.00</div>
 								</div>
-								<div class="order-col">
-									<div>2x Product Name Goes Here</div>
-									<div>$980.00</div>
-								</div>
+<!-- 								<div class="order-col"> -->
+<!-- 									<div>2x Product Name Goes Here</div> -->
+<!-- 									<div>$980.00</div> -->
+<!-- 								</div> -->
 							</div>
 							<div class="order-col">
 								<div>Shiping</div>
@@ -333,7 +333,7 @@
 							</div>
 							<div class="order-col">
 								<div><strong>TOTAL</strong></div>
-								<div><strong class="order-total">$2940.00</strong></div>
+								<div><strong class="order-total" th:text="${#numbers.formatDecimal(totalPrices, 3, 'COMMA', 0, 'POINT')} + 'đ'">$2940.00</strong></div>
 							</div>
 						</div>
 						<div class="payment-method">
