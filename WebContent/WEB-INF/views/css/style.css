@@ -1102,37 +1102,48 @@ textarea.input {
   min-height: 60px;
 }
 
-.product-widget .product-body .product-category {
+.product-widget .product-body-drop {
+  padding-left: 20px;
+  min-height: 60px;
+}
+
+.product-widget .product-body .product-category, .product-widget .product-body-drop .product-category {
   text-transform: uppercase;
   font-size: 10px;
   color: #8D99AE;
 }
 
-.product-widget .product-body .product-name {
+.product-widget .product-body .product-name, .product-widget .product-body-drop .product-name {
   text-transform: uppercase;
   font-size: 12px;
 }
 
-.product-widget .product-body .product-name>a {
+.product-widget .product-body .product-name>a, .product-widget .product-body-drop .product-name>a {
   font-weight: 700;
 }
 
-.product-widget .product-body .product-name>a:hover, .product-widget .product-body .product-name>a:focus {
+.product-widget .product-body .product-name>a:hover, 
+.product-widget .product-body .product-name>a:focus,
+.product-widget .product-body-drop .product-name>a:hover, 
+.product-widget .product-body-drop .product-name>a:focus {
   color: #D10024;
 }
 
-.product-widget .product-body .product-price {
+.product-widget .product-body .product-price,
+.product-widget .product-body-drop .product-price {
   font-size: 14px;
   color: #D10024;
 }
 
-.product-widget .product-body .product-price .product-old-price {
+.product-widget .product-body .product-price .product-old-price,
+.product-widget .product-body-drop .product-price .product-old-price {
   font-size: 70%;
   font-weight: 400;
   color: #8D99AE;
 }
 
-.product-widget .product-body .product-price .qty {
+.product-widget .product-body .product-price .qty,
+.product-widget .product-body-drop .product-price .qty {
   font-weight: 400;
   margin-right: 10px;
 }
@@ -1910,6 +1921,7 @@ textarea.input {
 .order-details .order-submit {
   display: block;
   margin-top: 30px;
+  width: 100%;
 }
 
 /*=========================================================

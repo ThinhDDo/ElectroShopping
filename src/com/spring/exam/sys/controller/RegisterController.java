@@ -28,7 +28,12 @@ public class RegisterController {
 	@PostMapping(value="/register")
 	public String register(@ModelAttribute UserInfo user) {
 		
-		userService.insertUser(user);
+		try {
+			userService.insertUser(user);	
+		} catch(Exception e) {
+			return "redirect:/login?register=false";
+		}
+		
 		return "redirect:/login?register=true";
 	}
 }

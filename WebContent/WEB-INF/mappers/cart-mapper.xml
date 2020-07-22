@@ -4,7 +4,7 @@
 
 <mapper namespace="CartMapper">
 	
-	<resultMap type="Cart" id="cartDetails">
+	<resultMap type="Cart" id="cart">
 		<id property="cart_id" column="cart_id"/>
 		<result property="username" column="username"/>
 		<result property="cart_date" column="cart_date"/>
@@ -14,13 +14,36 @@
 		
 		<collection property="products" ofType="ProductCategory" autoMapping="true"></collection>
 	</resultMap>
-
-	<select id="insertCart" parameterType="Cart">
-		 INSERT ALL  
-		    <foreach collection="list" item="element" index="index" >
-		     INTO EMPLOYEE (id,name) values (#{element.id},#{element.name})
-		    </foreach>
-		   SELECT * FROM dual
+	
+	<parameterMap type="java.util.Map" id="cartParameters">
+		<parameter property="address" jdbcType="VARCHAR" mode="IN"/>
+		<parameter property="notes" jdbcType="VARCHAR" mode="IN"/>
+		<parameter property="username" jdbcType="VARCHAR" mode="IN"/>
+		<parameter property="cart_date" jdbcType="DATE" mode="IN"/>
+		<parameter property="country" jdbcType="VARCHAR" mode="IN"/>
+		<parameter property="city" jdbcType="VARCHAR" mode="IN"/>
+		<parameter property="zipcode" jdbcType="VARCHAR" mode="IN"/>	
+		<parameter property="cid" jdbcType="INTEGER" mode="OUT"/>
+	</parameterMap>
+	
+	
+	<select id="insertNewCart" parameterMap="cartParameters" statementType="CALLABLE">
+		call AddNewCart(#{address, mode=IN},
+										#{notes, mode=IN},
+										#{username, mode=IN},
+										#{cart_date, mode=IN},
+										#{country, mode=IN},
+										#{zipcode, mode=IN},
+										#{city, mode=IN},
+										#{cid, jdbcType=INTEGER, mode=OUT});
+	</select>
+	
+	<select id="insertProductsToCart" parameterType="Map">
+		INSERT INTO CART_DETAIL(cart_id, product_id, amount) VALUES
+		<foreach collection="products" item="product" index="index">
+			(#{cid}, #{product.id}, #{product.quantity})
+		</foreach>
+		;
 	</select>
 	
 </mapper>

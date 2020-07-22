@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -270,6 +270,55 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES ('Do Duy Sang','thinh@gmail.com','0377725445','Nhà Bè, Việt Nam','1999-08-24','admin','$2a$10$DJylXVNW5oIOBxuNg8FLoOre4dDTBy8s1mvAg8NXQRyrSXCI2s9ny',NULL,2),('Do Duy Thinh 01','admin@gmail.com','0977726444','Viet Nam','2020-06-30','user','$2a$10$CK1osM/kumphzS70EP1kY.GtMVcrOYwettFzsiK.mYlmM3xWziicK','white_cat.jpg',1),('Tran Duy Thinh','tranthinh@gmail.com',NULL,NULL,NULL,'user2','$2a$10$tlMkQPEG.uzpbXF7WichA.CFRBVgzHyC3uZc30WszoVPG7Iwou8tC',NULL,1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'store'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `AddNewCart` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddNewCart`(
+							in address varchar(256), in notes varchar(100), -- for shipment
+							in username varchar(256), in cart_date date, in country varchar(256), in zipcode varchar(256), in city varchar(256),
+                            out cid int)
+BEGIN
+	INSERT INTO SHIPMENT(address, notes) VALUES (address, notes);
+	set @shipment_id = last_insert_id();
+	INSERT INTO CART (username, cart_date, country, zipcode, city, ship_id) VALUES (username, cart_date, country, zipcode, city, @shipment_id);
+    set cid = last_insert_id();
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `DeleteCart` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteCart`(in cid int)
+begin
+	DELETE FROM CART WHERE cart_id = cid;
+    DELETE FROM CART_DETAIL WHERE cart_id = cid;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -280,4 +329,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-23  3:48:05
+-- Dump completed on 2020-07-23  3:54:19

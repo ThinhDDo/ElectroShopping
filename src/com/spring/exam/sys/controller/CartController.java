@@ -7,17 +7,26 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.spring.exam.sys.model.Cart;
 import com.spring.exam.sys.model.Category;
 import com.spring.exam.sys.model.ProductCategory;
+import com.spring.exam.sys.model.UserInfo;
+import com.spring.exam.sys.service.CartServiceImpl;
 import com.spring.exam.sys.service.ProductCategoryServiceImpl;
+import com.spring.exam.sys.service.UserService;
 
 @Controller
 @SessionAttributes(names = {"user", "categories", "companyInfo", "qtyHeader", "mycart", "totalPrices"})
@@ -25,6 +34,12 @@ public class CartController {
 	
 	@Autowired
 	private ProductCategoryServiceImpl productCategoryService;
+	
+	@Autowired
+	private CartServiceImpl cartService;
+	
+	@Autowired 
+	private UserService userService;
 	
 	/**
 	 * Show all products chosen by the user
@@ -78,13 +93,90 @@ public class CartController {
 	 */
 	@GetMapping(value="/checkout")
 	public String checkOut(@CookieValue(name="cart", defaultValue="", required=false) String cookie,
-						   Model model) {
+						   Model model,
+						   Authentication auth) {
 		// Create essential model
 		model.addAttribute("category", new Category()); // For searching
+		// Initiate entry data
+		List<ProductCategory> products = new ArrayList<>();
+		int numberOfProducts = 0; // The amount of products that user bought
+		double totalPrices = 0.0; // Temporary Total Prices (before sale)
 		
-		// Get Cookie cart: mycart SessionAttributes
+		if(!cookie.equals("")) {
+			String[] cart = cookie.split("-"); // id:quantity
+			
+			
+			for(String item : cart) {
+				String[] productValue = item.split(":");
+				// TODO: Should create new select: selectProductForCartById
+				// Also, check if the stock is available
+				ProductCategory product = productCategoryService.selectProductById(Integer.parseInt(productValue[0]));
+				
+				// Get quantity
+				int q = Integer.parseInt(productValue[1]);
+				numberOfProducts += q;
+				product.setQuantity(q);
+				
+				// Calculate Total Prices
+				totalPrices += (q * product.getPrice());
+				
+				// Add to list
+				products.add(product);
+			}
+		}
+		
+		// Add ModelAndView
+		model.addAttribute("numberOfProducts", numberOfProducts);
+		model.addAttribute("mycart", products);
+		model.addAttribute("totalPrices", totalPrices);
+		
+		// Get User information
+		UserInfo userInfo = null;
+		if(auth.isAuthenticated()) {
+			User loginUser = (User) auth.getPrincipal();
+			userInfo = userService.selectUserByName(loginUser.getUsername());
+			model.addAttribute("user", userInfo);
+		}
+		
+		Cart cartInfo = new Cart();
+		cartInfo.getShipment().setAddress(userInfo.getAddress());
+		model.addAttribute("cartInfo", new Cart());
 		
 		return "checkout";
+	}
+	
+	/**
+	 * Show history of user's ordered
+	 * @param cookie
+	 * @return
+	 */
+	@GetMapping(value="/history")
+	public String historyCart(@CookieValue(name="cart", defaultValue="", required=true) String cookie) {
+		return "history";
+	}
+	
+	/**
+	 * Place order and purchase
+	 * @param cookie
+	 * @return
+	 */
+	@PostMapping(value="/purchase")
+	public String placeOrder(@SessionAttribute(name="user", required=true) UserInfo user,
+							 @SessionAttribute(name="mycart", required=true) List<ProductCategory> products,
+			 				 @CookieValue(name="cart", defaultValue="", required=true) String cookie,
+							 @ModelAttribute(name = "cartInfo") Cart cart) {
+		if(cookie.equals("")) {
+			return "redirect:/cart";
+		}
+		
+		// user information
+		cart.setUser(user.getUsername());
+		cart.setProducts(products);
+		System.out.println("cart Info:" + cart.toString());		
+		
+		cartService.insertNewCart(cart);
+		
+		return "redirect:/history";
 	}
 	
 	
@@ -120,4 +212,6 @@ public class CartController {
 		
 		return "redirect:/cart";
 	}
+	
+	
 }

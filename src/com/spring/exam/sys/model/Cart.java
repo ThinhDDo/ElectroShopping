@@ -12,17 +12,20 @@ public class Cart {
 	private String city;
 	private String country;
 	private String zipcode;
-
+	private String username;
+	
 	private Shipment shipment;
-	private UserInfo user;
+	
 	private List<ProductCategory> products;
 
 	public Cart() {
 		super();
+		this.cart_date = LocalDate.now();
+		this.shipment = new Shipment();
 	}
 
 	public Cart(int cart_id, LocalDate cart_date, String city, String country, String zipcode, Shipment shipment,
-			UserInfo user, List<ProductCategory> products) {
+			String username, List<ProductCategory> products) {
 		super();
 		this.cart_id = cart_id;
 		this.cart_date = cart_date;
@@ -30,7 +33,7 @@ public class Cart {
 		this.country = country;
 		this.zipcode = zipcode;
 		this.shipment = shipment;
-		this.user = user;
+		this.username = username;
 		this.products = products;
 	}
 
@@ -82,12 +85,12 @@ public class Cart {
 		this.shipment = shipment;
 	}
 
-	public UserInfo getUser() {
-		return user;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUser(UserInfo user) {
-		this.user = user;
+	public void setUser(String username) {
+		this.username = username;
 	}
 
 	public List<ProductCategory> getProducts() {
@@ -101,7 +104,7 @@ public class Cart {
 	@Override
 	public String toString() {
 		return "Cart [cart_id=" + cart_id + ", cart_date=" + cart_date + ", city=" + city + ", country=" + country
-				+ ", zipcode=" + zipcode + ", shipment=" + shipment + ", user=" + user + ", products=" + products + "]";
+				+ ", zipcode=" + zipcode + ", shipment=" + shipment + ", username=" + username + ", products=" + products.size() + "]";
 	}
 
 }

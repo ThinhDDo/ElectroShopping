@@ -7,6 +7,8 @@ public class Shipment {
 
 	public Shipment() {
 		super();
+		this.address = "";
+		this.notes = "";
 	}
 
 	public Shipment(int ship_id, String address, String notes) {

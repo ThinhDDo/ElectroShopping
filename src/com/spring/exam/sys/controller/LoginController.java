@@ -10,7 +10,7 @@ public class LoginController {
 	
 	@GetMapping(value="/login")
 	public String loginPage(@RequestParam(required = false, name = "error", defaultValue = "false") String error,
-							@RequestParam(required = false, name = "register", defaultValue = "false") String register,
+							@RequestParam(required = false, name = "register", defaultValue = "") String register,
 							Model model) {
 		
 		String errorMessage = null;
@@ -20,8 +20,10 @@ public class LoginController {
         }
         if(register.equals("true")) {
         	successMessage = "Registered Successfully";
-        } else {
+        } else if(register.equals("false")) {
         	errorMessage = "Registed failed."; 
+        } else {
+        	;
         }
 		
         model.addAttribute("errorMessage", errorMessage);
