@@ -4,7 +4,7 @@
 
 <mapper namespace="CartMapper">
 	
-	<resultMap type="Cart" id="cart">
+	<resultMap type="Cart" id="cartOfUser">
 		<id property="cart_id" column="cart_id"/>
 		<result property="username" column="username"/>
 		<result property="cart_date" column="cart_date"/>
@@ -12,7 +12,14 @@
 		<result property="country" column="country"/>
 		<result property="zipcode" column="zipcode"/>
 		
-		<collection property="products" ofType="ProductCategory" autoMapping="true"></collection>
+		<collection property="products" ofType="ProductCategory" autoMapping="true">
+			<id property="id" column="id"/>
+			<result property="name" column="name"/>
+			<result property="image" column="image"/>
+			<result property="quantity" column="amount"/>
+			<result property="price" column="price"/>
+			<result property="isNew" column="isNew"/>
+		</collection>
 	</resultMap>
 	
 	<parameterMap type="java.util.Map" id="cartParameters">
@@ -40,10 +47,20 @@
 	
 	<select id="insertProductsToCart" parameterType="Map">
 		INSERT INTO CART_DETAIL(cart_id, product_id, amount) VALUES
-		<foreach collection="products" item="product" index="index">
-			(#{cid}, #{product.id}, #{product.quantity})
+		<foreach collection="products" item="product" index="index" separator=",">
+			 (#{cid}, #{product.id}, #{product.quantity})
 		</foreach>
-		;
+	</select>
+	
+	<select id="selectCartsByUsername" resultMap="cartOfUser" parameterType="String">
+		SELECT 
+			c.cart_id, c.cart_date, c.city, c.country, 
+			c.zipcode, c.username, cd.amount,
+			p.id, p.name, p.image, p.price, p.isNew
+		FROM cart c, cart_detail cd, product p
+		WHERE c.username like #{username}
+		AND c.cart_id = cd.cart_id
+		AND p.id = cd.product_id
 	</select>
 	
 </mapper>

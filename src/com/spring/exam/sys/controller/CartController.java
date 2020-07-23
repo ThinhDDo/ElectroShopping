@@ -29,7 +29,7 @@ import com.spring.exam.sys.service.ProductCategoryServiceImpl;
 import com.spring.exam.sys.service.UserService;
 
 @Controller
-@SessionAttributes(names = {"user", "categories", "companyInfo", "qtyHeader", "mycart", "totalPrices"})
+@SessionAttributes(names = {"user", "categories", "companyInfo", "mycart", "totalPrices"})
 public class CartController {
 	
 	@Autowired
@@ -48,8 +48,17 @@ public class CartController {
 	 */
 	@GetMapping(value="/cart")
 	public String showCart(@CookieValue(name="cart", defaultValue="", required=false) String cookie,
-						   Model model) {
+						   Model model,
+						   Authentication auth) {
 		model.addAttribute("category", new Category()); // For searching
+		
+		// Get User information
+		UserInfo userInfo = null;
+		if(auth.isAuthenticated()) {
+			User loginUser = (User) auth.getPrincipal();
+			userInfo = userService.selectUserByName(loginUser.getUsername());
+			model.addAttribute("user", userInfo);
+		}
 		
 		// Initiate entry data
 		List<ProductCategory> products = new ArrayList<>();
@@ -151,7 +160,13 @@ public class CartController {
 	 * @return
 	 */
 	@GetMapping(value="/history")
-	public String historyCart(@CookieValue(name="cart", defaultValue="", required=true) String cookie) {
+	public String historyCart(@CookieValue(name="cart", defaultValue="", required=true) String cookie,
+							  @SessionAttribute("user") UserInfo user,
+							  Model model) {
+		List<Cart> invoices = cartService.selectCartsByUsername(user.getUsername());
+		model.addAttribute("invoices", invoices);
+		// Create essential model
+		model.addAttribute("category", new Category()); // For searching
 		return "history";
 	}
 	
@@ -164,17 +179,24 @@ public class CartController {
 	public String placeOrder(@SessionAttribute(name="user", required=true) UserInfo user,
 							 @SessionAttribute(name="mycart", required=true) List<ProductCategory> products,
 			 				 @CookieValue(name="cart", defaultValue="", required=true) String cookie,
-							 @ModelAttribute(name = "cartInfo") Cart cart) {
+							 @ModelAttribute(name = "cartInfo") Cart cart,
+							 HttpServletResponse response) {
+		
+		// If cookie is empty than redirect to Cart page
 		if(cookie.equals("")) {
 			return "redirect:/cart";
 		}
 		
-		// user information
+		// Set user to Cart
 		cart.setUser(user.getUsername());
 		cart.setProducts(products);
 		System.out.println("cart Info:" + cart.toString());		
 		
+		// Insert into database
 		cartService.insertNewCart(cart);
+		
+		// Reset Cookie
+		response.addCookie(new Cookie("cart", ""));
 		
 		return "redirect:/history";
 	}

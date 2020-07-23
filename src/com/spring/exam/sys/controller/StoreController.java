@@ -17,7 +17,7 @@ import com.spring.exam.sys.model.ProductCategory;
 import com.spring.exam.sys.service.ProductCategoryService;
 
 @Controller
-@SessionAttributes(names = {"user", "categories", "qtyHeader", "companyInfo"})
+@SessionAttributes(names = {"user", "categories", "qtyHeader", "companyInfo", "mycart"})
 public class StoreController {
 	
 	@Autowired

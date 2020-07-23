@@ -34,23 +34,37 @@ function getCookie(cname) {
         myCart = decodeURIComponent(getCookie("cart"));
         if(q > 0) {
             if(myCart == "") {
-                alert("YOU CART IS CREATED");
-    
                 // add New product to cart
                 document.cookie = setCookie("cart", new_product);
                 console.log('Add new product to cart: [' + new_product + ']');
             } else {
                 if(myCart.includes(productId)) {
-                    alert('THIS PRODUCT iS ADDED TO YOUR CART');
+                    alert('THIS PRODUCT IS ADDED TO YOUR CART');
                 } else {
                     myCart = myCart + "-" + new_product;
                     console.log('Add product to cart: [' + new_product + ']');
                     setCookie("cart", myCart);
                 }
             }
+
         } else {
             alert("BUY AT LEAST 1 PRODUCTS");
         }
+        
+        // Reload page
+        let uri = "/SpringMVC/product?pid=" + productId;
+        $.ajax({
+            type: "GET",
+            url: uri,
+            success: function (result) {
+                console.log("success");
+            },
+            error: function (result) {
+                console.log("fail");
+            }
+        });
+        document.getElementById("gotoTop").click();
+        location.reload();
     });
 
     // Show products added to cart (/index[Dropdown])

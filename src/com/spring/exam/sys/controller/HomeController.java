@@ -29,7 +29,7 @@ import com.spring.exam.sys.service.ProductCategoryService;
 import com.spring.exam.sys.service.UserService;
 
 @Controller
-@SessionAttributes(names = {"user", "categories", "companyInfo", "qtyHeader"})
+@SessionAttributes(names = {"mycart", "user", "categories", "companyInfo"})
 public class HomeController {
 	@Autowired
 	private UserService userService;
@@ -61,19 +61,54 @@ public class HomeController {
 			}
 		}
 		
+		// Initiate entry data
+		List<ProductCategory> products = new ArrayList<>();
+		int numberOfProducts = 0; // The amount of products that user bought
+		double totalPrices = 0.0; // Temporary Total Prices (before sale)
+		
+		if(!cookie.equals("")) {
+			String[] cart = cookie.split("-"); // id:quantity
+			
+			
+			for(String item : cart) {
+				String[] productValue = item.split(":");
+				// TODO: Should create new select: selectProductForCartById
+				// Also, check if the stock is available
+				ProductCategory product = productCategoryService.selectProductById(Integer.parseInt(productValue[0]));
+				
+				// Get quantity
+				int q = Integer.parseInt(productValue[1]);
+				numberOfProducts += q;
+				product.setQuantity(q);
+				
+				// Calculate Total Prices
+				totalPrices += (q * product.getPrice());
+				
+				// Add to list
+				products.add(product);
+			}
+		}
+		
+		// Initiate Cart model
+		model.addAttribute("numberOfProducts", numberOfProducts);
+		model.addAttribute("mycart", products);
+		model.addAttribute("totalPrices", totalPrices);
+		
+		// Initiate essential information model
 		model.addAttribute("companyInfo", userService.selectUserByName("admin")); // Shop info
 		model.addAttribute("user", userProfile); // User info
 		model.addAttribute("category", new Category());
 		model.addAttribute("categories", productCategoryService.selectCategories());
+		model.addAttribute("products", productCategoryService.selectProducts());
 		
 		// Extract cart products from cookie
-		logger.info("COOKIE: " + cookie);
-		if(!cookie.equals("")) {
-			String[] cart = cookie.split("-");
-			model.addAttribute("qtyHeader", cart.length);
-		} else {			
-			model.addAttribute("qtyHeader", 0);
-		}
+//		logger.info("COOKIE: " + cookie);
+//		if(!cookie.equals("")) {
+//			String[] cart = cookie.split("-");
+//			model.addAttribute("qtyHeader", cart.length);
+//		} else {			
+//			model.addAttribute("qtyHeader", 0);
+//		}
 		
 		return "index";
 	}

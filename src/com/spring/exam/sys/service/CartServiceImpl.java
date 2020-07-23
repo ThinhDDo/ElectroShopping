@@ -1,5 +1,7 @@
 package com.spring.exam.sys.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,11 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public void insertNewCart(Cart cart) {
 		cartDAO.insertNewCart(cart);
+	}
+
+	@Override
+	public List<Cart> selectCartsByUsername(String username) {
+		return cartDAO.selectCartsByUsername(username);
 	}
 
 }

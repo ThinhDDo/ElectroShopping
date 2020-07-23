@@ -55,6 +55,10 @@ Table OF Contents
 	Typography
 \*----------------------------*/
 
+html {
+	scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
@@ -2245,6 +2249,20 @@ li.prices-item > span {
 .cart-submit a {
   width: 100%; 
   padding: 12px 6px;
+}
+
+/* USER OPTOINS : TOP HEADER */
+.user-options {
+	padding: 5px;
+}
+
+div.user-options .user-option {
+	padding-left: 10px;
+	color: black;
+}
+
+div.user-options a.user-option:hover {
+	color: #D10024; 
 }
 /*=========================================================
 	13 -> RESPONSIVE

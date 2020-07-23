@@ -1,6 +1,7 @@
 package com.spring.exam.sys.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -34,5 +35,10 @@ public class CartDAOImpl implements CartDAO {
 		System.out.println("cart_id generated: " + params.get("cid"));
 		
 		sqlSession.selectList("CartMapper.insertProductsToCart", params);
+	}
+
+	@Override
+	public List<Cart> selectCartsByUsername(String username) {
+		return sqlSession.selectList("CartMapper.selectCartsByUsername", username);
 	}
 }

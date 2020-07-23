@@ -5,16 +5,26 @@
 <mapper namespace="ProductCategoryMapper">
 	
 	<select id="selectProducts" resultType="ProductCategory">
-		SELECT id, name, quantity, price, description, manufacturer_id, c.category_id, c.category_name, image, image_detail
-		FROM product p, category c
+		SELECT 
+			id, name, quantity, price, 
+			description, isNew, manufacturer_id, 
+			c.category_id, c.category_name, 
+			image, image_detail, d.percentage, d.discount_desc
+		FROM product p, category c, discount d
 		WHERE p.category_id = c.category_id
+		AND p.discount_id = d.discount_id
 	</select>
 	
 	<select id="selectProductsByPage" parameterType="int" resultType="ProductCategory">
 		
-		SELECT id, name, quantity, price, description, manufacturer_id, c.category_id, c.category_name, image, image_detail
-		FROM product p, category c
+		SELECT 
+			id, name, quantity, price, 
+			description, isNew, manufacturer_id, 
+			c.category_id, c.category_name, 
+			image, image_detail, d.percentage, d.discount_desc
+		FROM product p, category c, discount d
 		WHERE p.category_id = c.category_id
+		AND p.discount_id = d.discount_id
 		LIMIT 6 OFFSET #{page}
 	</select>
 	
@@ -23,16 +33,26 @@
 	</select>
 	
 	<select id="selectProductById" resultType="ProductCategory">
-		SELECT id, name, quantity, price, description, manufacturer_id, c.category_id, c.category_name, image, image_detail 
-		FROM PRODUCT p, CATEGORY c
+		SELECT 
+			id, name, quantity, price, 
+			description, isNew, manufacturer_id, 
+			c.category_id, c.category_name, 
+			image, image_detail, d.percentage, d.discount_desc 
+		FROM PRODUCT p, CATEGORY c, discount d
 		WHERE id = #{id}
 		AND p.category_id = c.category_id
+		AND p.discount_id = d.discount_id
 	</select>
 	
 	<select id="selectProductByName" parameterType="java.util.Map" resultType="ProductCategory">
-		SELECT id, name, quantity, price, description, manufacturer_id, c.category_id, category_name, image, image_detail 
-		FROM PRODUCT p, CATEGORY c 
+		SELECT
+			id, name, quantity, price, 
+			description, isNew, manufacturer_id, 
+			c.category_id, c.category_name, 
+			image, image_detail, d.percentage, d.discount_desc 
+		FROM PRODUCT p, CATEGORY c, discount d
 		WHERE p.category_id = c.category_id
+		AND p.discount_id = d.discount_id
 		AND NAME LIKE CONCAT('%', #{name}, '%')
 		<if test="category_id != 0">
 			AND c.category_id = #{category_id}
@@ -40,9 +60,14 @@
 	</select>
 
 	<select id="selectProductsByCategory" parameterType="String" resultType="ProductCategory">
-		SELECT id, name, quantity, price, description, manufacturer_id, c.category_id, c.category_name, image, image_detail 
-		FROM PRODUCT p, CATEGORY c
+		SELECT 
+			id, name, quantity, price, 
+			description, isNew, manufacturer_id, 
+			c.category_id, c.category_name, 
+			image, image_detail, d.percentage, d.discount_desc 
+		FROM PRODUCT p, CATEGORY c, DISCOUNT d
 		WHERE c.category_name LIKE #{category_name}
 		AND p.category_id = c.category_id
+		AND p.discount_id = d.discount_id
 	</select>
 </mapper>

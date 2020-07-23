@@ -36,7 +36,7 @@ CREATE TABLE `cart` (
   KEY `ship_id` (`ship_id`),
   CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE,
   CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`ship_id`) REFERENCES `shipment` (`ship_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `cart` (
 
 LOCK TABLES `cart` WRITE;
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
-INSERT INTO `cart` VALUES (9,'user',5,'2020-07-22','HCM','VN','7000000',1),(10,'user',6,'2020-07-23','HCM','VN','700000',1);
+INSERT INTO `cart` VALUES (9,'user',5,'2020-07-22','HCM','VN','7000000',0),(10,'user',6,'2020-07-23','HCM','VN','700000',0),(15,'user',11,'2020-07-23','','','',1);
 /*!40000 ALTER TABLE `cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,7 +73,7 @@ CREATE TABLE `cart_detail` (
 
 LOCK TABLES `cart_detail` WRITE;
 /*!40000 ALTER TABLE `cart_detail` DISABLE KEYS */;
-INSERT INTO `cart_detail` VALUES (9,19,1),(10,19,1);
+INSERT INTO `cart_detail` VALUES (9,19,1),(10,19,1),(15,25,2),(15,14,3);
 /*!40000 ALTER TABLE `cart_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,11 +109,11 @@ DROP TABLE IF EXISTS `discount`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `discount` (
-  `discount_id` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `percentage` float DEFAULT NULL,
-  `discount_desc` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `discount_id` int NOT NULL AUTO_INCREMENT,
+  `percentage` int DEFAULT NULL,
+  `discount_desc` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`discount_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,6 +122,7 @@ CREATE TABLE `discount` (
 
 LOCK TABLES `discount` WRITE;
 /*!40000 ALTER TABLE `discount` DISABLE KEYS */;
+INSERT INTO `discount` VALUES (1,30,'Tặng tai nghe Sony'),(2,50,'Đổi trả trong tháng'),(3,60,'Trả góp 0%'),(4,0,NULL);
 /*!40000 ALTER TABLE `discount` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,18 +164,19 @@ CREATE TABLE `product` (
   `quantity` int NOT NULL,
   `price` float NOT NULL,
   `description` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `isNew` int DEFAULT '0',
   `manufacturer_id` int DEFAULT NULL,
   `category_id` int DEFAULT NULL,
+  `discount_id` int DEFAULT NULL,
   `image` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image_detail` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `discount_id` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `manufacturer` (`manufacturer_id`),
-  KEY `discount_id` (`discount_id`),
   KEY `type_id` (`category_id`),
+  KEY `discount_id` (`discount_id`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`manufacturer_id`) REFERENCES `manufacturer` (`manufacturer_id`),
-  CONSTRAINT `product_ibfk_2` FOREIGN KEY (`discount_id`) REFERENCES `discount` (`discount_id`),
-  CONSTRAINT `product_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON UPDATE CASCADE
+  CONSTRAINT `product_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON UPDATE CASCADE,
+  CONSTRAINT `product_ibfk_4` FOREIGN KEY (`discount_id`) REFERENCES `discount` (`discount_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -184,7 +186,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (13,'Xiaomi Redmi 9 (4GB/64GB)',10,3999000,'Màn hình 6.53, Camera sau Chính 13 MP & Phụ 8 MP, 5 MP, 2 MP, Pin 5020 mAh',4,1,'xiaomi-redmi-9-(10).jpg','',NULL),(14,'Samsung Galaxy A31',10,5840000,'Super AMOLED, 6.4, 	Android 10, Full HD+, Chính 48 MP & Phụ 8 MP, 5 MP, 5 MP, Camera sau 20MP',1,1,'samsung-galaxy-a21s-055620-045627-400x460.png','',NULL),(15,'Phone SE 256GB 2020',10,17490000,'	IPS LCD, 4.7\", Retina, iOS 13, 	12 MP, 	Apple A13 Bionic 6 nhân, 3GB/256GB',2,1,'iphone-7-gold-400x460.png','',NULL),(16,'Vivo V19',10,8590000,'Super AMOLED, 6.4, Android 10, Full HD+, Chính 48 MP & Phụ 8 MP, 5 MP, 5 MP, Camera sau 20MP, 8 GB/128GB',3,1,'vivo-y30-xanh-400x460-400x460.png','',NULL),(17,'OPPO A92',10,6490000,'	TFT LCD, 6.5\", Full HD+, Android 10, Chính 48 MP & Phụ 8 MP, 2 MP, 2 MP, Snapdragon 665 8 nhân, 8 GB/128GB',5,1,'oppo-a92-tim-400x460-400x460.png','',NULL),(18,'Vsmart Star 4',10,2190000,'IPS LCD, 6.09, Android 10, Chính 8 MP & Phụ 5 MP, MediaTek Helio P35 8 nhân, 2 GB/32GB',6,1,'vsmart-star-4-den-400x460-400x460.png','',NULL),(19,'iPhone SE 64GB (2020)',10,12490000,'IPS LCD, 4.7, Retina, iOS 13, 12/7MP, Apple A13 Bionic 6 nhân, 3/64GB',2,1,'iphone-se-2020-do-400x460-400x460.png','',NULL),(20,'Xiaomi Redmi 9 (4GB/64GB)',10,3999000,'Màn hình 6.53, Camera sau Chính 13 MP & Phụ 8 MP, 5 MP, 2 MP, Pin 5020 mAh',4,1,'xiaomi-mi-note-10-lite-400x460-trang-1-400x460.png','',NULL),(21,'Samsung Galaxy A31',10,5840000,'Super AMOLED, 6.4, Android 10, Full HD+, Chính 48 MP & Phụ 8 MP, 5 MP, 5 MP, Camera sau 20MP',1,1,'samsung-galaxy-fold-black-400x460.png','',NULL),(22,'Phone SE 256GB 2020',10,17490000,'IPS LCD, 4.7\", Retina, iOS 13, 12 MP, 	Apple A13 Bionic 6 nhân, 3GB/256GB',2,1,'iphone-11-256gb-black-400x460.png','',NULL),(23,'Vivo V19',10,8590000,'Super AMOLED, 6.4, Android 10, Full HD+, Chính 48 MP & Phụ 8 MP, 5 MP, 5 MP, Camera sau 20MP, 8 GB/128GB',3,1,'vivo-v19-neo-den-400x460-1-400x460.png','',NULL),(24,'OPPO A92',10,6490000,'	TFT LCD, 6.5\", Full HD+, Android 10, Chính 48 MP & Phụ 8 MP, 2 MP, 2 MP, Snapdragon 665 8 nhân, 8 GB/128GB',5,1,'oppo-a91-trang-400x460-1-400x460.png','',NULL),(25,'Vsmart Star 4',10,2190000,'IPS LCD, 6.09, Android 10, Chính 8 MP & Phụ 5 MP, MediaTek Helio P35 8 nhân, 2 GB/32GB',6,1,'vsmart-joy-3-2gb-tim-400x460-400x460.png','',NULL);
+INSERT INTO `product` VALUES (13,'Xiaomi Redmi 9 (4GB/64GB)',10,3999000,'Màn hình 6.53, Camera sau Chính 13 MP & Phụ 8 MP, 5 MP, 2 MP, Pin 5020 mAh',0,4,1,1,'xiaomi-redmi-9-(10).jpg',''),(14,'Samsung Galaxy A31',10,5840000,'Super AMOLED, 6.4, 	Android 10, Full HD+, Chính 48 MP & Phụ 8 MP, 5 MP, 5 MP, Camera sau 20MP',0,1,1,2,'samsung-galaxy-a21s-055620-045627-400x460.png',''),(15,'Phone SE 256GB 2020',10,17490000,'	IPS LCD, 4.7\", Retina, iOS 13, 	12 MP, 	Apple A13 Bionic 6 nhân, 3GB/256GB',1,2,1,4,'iphone-7-gold-400x460.png',''),(16,'Vivo V19',10,8590000,'Super AMOLED, 6.4, Android 10, Full HD+, Chính 48 MP & Phụ 8 MP, 5 MP, 5 MP, Camera sau 20MP, 8 GB/128GB',0,3,1,1,'vivo-y30-xanh-400x460-400x460.png',''),(17,'OPPO A92',10,6490000,'	TFT LCD, 6.5\", Full HD+, Android 10, Chính 48 MP & Phụ 8 MP, 2 MP, 2 MP, Snapdragon 665 8 nhân, 8 GB/128GB',1,5,1,2,'oppo-a92-tim-400x460-400x460.png',''),(18,'Vsmart Star 4',10,2190000,'IPS LCD, 6.09, Android 10, Chính 8 MP & Phụ 5 MP, MediaTek Helio P35 8 nhân, 2 GB/32GB',1,6,1,3,'vsmart-star-4-den-400x460-400x460.png',''),(19,'iPhone SE 64GB (2020)',10,12490000,'IPS LCD, 4.7, Retina, iOS 13, 12/7MP, Apple A13 Bionic 6 nhân, 3/64GB',0,2,1,4,'iphone-se-2020-do-400x460-400x460.png',''),(20,'Xiaomi Redmi 9 (4GB/64GB)',10,3999000,'Màn hình 6.53, Camera sau Chính 13 MP & Phụ 8 MP, 5 MP, 2 MP, Pin 5020 mAh',1,4,1,1,'xiaomi-mi-note-10-lite-400x460-trang-1-400x460.png',''),(21,'Samsung Galaxy A31',10,5840000,'Super AMOLED, 6.4, Android 10, Full HD+, Chính 48 MP & Phụ 8 MP, 5 MP, 5 MP, Camera sau 20MP',0,1,1,3,'samsung-galaxy-fold-black-400x460.png',''),(22,'Phone SE 256GB 2020',10,17490000,'IPS LCD, 4.7\", Retina, iOS 13, 12 MP, 	Apple A13 Bionic 6 nhân, 3GB/256GB',1,2,1,2,'iphone-11-256gb-black-400x460.png',''),(23,'Vivo V19',10,8590000,'Super AMOLED, 6.4, Android 10, Full HD+, Chính 48 MP & Phụ 8 MP, 5 MP, 5 MP, Camera sau 20MP, 8 GB/128GB',0,3,1,1,'vivo-v19-neo-den-400x460-1-400x460.png',''),(24,'OPPO A92',10,6490000,'	TFT LCD, 6.5\", Full HD+, Android 10, Chính 48 MP & Phụ 8 MP, 2 MP, 2 MP, Snapdragon 665 8 nhân, 8 GB/128GB',1,5,1,2,'oppo-a91-trang-400x460-1-400x460.png',''),(25,'Vsmart Star 4',10,2190000,'IPS LCD, 6.09, Android 10, Chính 8 MP & Phụ 5 MP, MediaTek Helio P35 8 nhân, 2 GB/32GB',1,6,1,1,'vsmart-joy-3-2gb-tim-400x460-400x460.png','');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -224,7 +226,7 @@ CREATE TABLE `shipment` (
   `address` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `notes` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ship_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +235,7 @@ CREATE TABLE `shipment` (
 
 LOCK TABLES `shipment` WRITE;
 /*!40000 ALTER TABLE `shipment` DISABLE KEYS */;
-INSERT INTO `shipment` VALUES (4,'',''),(5,'',''),(6,'123','123');
+INSERT INTO `shipment` VALUES (4,'',''),(5,'',''),(6,'123','123'),(7,'123 ThÃ nh ThÃ¡i','123 ThÃ nh ThÃ¡i'),(8,'asfdasdfasdf','asfdasdfasdf'),(9,'',''),(10,'',''),(11,'','');
 /*!40000 ALTER TABLE `shipment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -329,4 +331,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-23  3:54:19
+-- Dump completed on 2020-07-23 23:24:13
