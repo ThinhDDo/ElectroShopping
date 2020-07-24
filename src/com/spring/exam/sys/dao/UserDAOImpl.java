@@ -2,6 +2,7 @@ package com.spring.exam.sys.dao;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +15,14 @@ public class UserDAOImpl implements UserDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	@Override
 	public void insertUser(UserInfo user) {
 		
-//		String password = passwordEncoder.encode(user.getPassword());
-//		user.setPassword(password);
+		String password = passwordEncoder.encode(user.getPassword());
+		user.setPassword(password);
 		sqlSession.selectOne("UserMapper.insertUser", user);
 	}
 	
@@ -30,5 +34,12 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void updateUser(UserInfo user) {
 		sqlSession.selectOne("UserMapper.updateUser", user);
+	}
+
+	@Override
+	public void updatePassword(UserInfo user) {
+		String password = passwordEncoder.encode(user.getPassword());
+		user.setPassword(password);
+		sqlSession.selectOne("UserMapper.updatePassword", user);
 	}
 }

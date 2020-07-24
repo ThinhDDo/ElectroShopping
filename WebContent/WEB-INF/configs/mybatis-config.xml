@@ -15,6 +15,7 @@
 		<typeAlias type="com.spring.exam.sys.model.Cart" alias="Cart"/>
 		<typeAlias type="com.spring.exam.sys.model.CartProductDetails" alias="CartProductDetails"/>
 		<typeAlias type="com.spring.exam.sys.model.Shipment" alias="Shipment"/>
+		<typeAlias type="com.spring.exam.sys.model.Details" alias="Details"/>
 	</typeAliases>
 	
 </configuration>

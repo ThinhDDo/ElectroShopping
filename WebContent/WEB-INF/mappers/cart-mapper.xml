@@ -12,6 +12,12 @@
 		<result property="country" column="country"/>
 		<result property="zipcode" column="zipcode"/>
 		
+		<collection property="shipment" ofType="Shipment" autoMapping="true">
+			<id property="ship_id" column="ship_id"/>
+			<result property="address" column="address"/>
+			<result property="notes" column="notes"/>
+		</collection>
+		
 		<collection property="products" ofType="ProductCategory" autoMapping="true">
 			<id property="id" column="id"/>
 			<result property="name" column="name"/>
@@ -55,12 +61,14 @@
 	<select id="selectCartsByUsername" resultMap="cartOfUser" parameterType="String">
 		SELECT 
 			c.cart_id, c.cart_date, c.city, c.country, 
-			c.zipcode, c.username, cd.amount,
-			p.id, p.name, p.image, p.price, p.isNew
-		FROM cart c, cart_detail cd, product p
+			c.zipcode, c.username, cd.amount, 
+			p.id, p.name, p.image, p.price, p.isNew,
+			m.ship_id, m.address, m.notes
+		FROM cart c, cart_detail cd, product p, shipment m
 		WHERE c.username like #{username}
 		AND c.cart_id = cd.cart_id
 		AND p.id = cd.product_id
+		AND c.ship_id = m.ship_id
 	</select>
 	
 </mapper>

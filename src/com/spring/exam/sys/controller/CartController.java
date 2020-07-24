@@ -1,5 +1,6 @@
 package com.spring.exam.sys.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -190,6 +191,20 @@ public class CartController {
 		// Set user to Cart
 		cart.setUser(user.getUsername());
 		cart.setProducts(products);
+		
+		// Encode information
+		try {
+			byte[] bytes_address = cart.getShipment().getAddress().getBytes("ISO-8859-1");
+	        String baddress = new String(bytes_address, "UTF-8");
+	        cart.getShipment().setAddress(baddress);
+	        
+	        byte[] bytes_notes = cart.getShipment().getNotes().getBytes("ISO-8859-1");
+	        String bnotes = new String(bytes_notes, "UTF-8");
+	        cart.getShipment().setNotes(bnotes);
+		} catch (UnsupportedEncodingException e) {
+	        e.printStackTrace();
+	    }
+		
 		System.out.println("cart Info:" + cart.toString());		
 		
 		// Insert into database

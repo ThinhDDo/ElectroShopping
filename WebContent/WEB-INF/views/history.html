@@ -109,8 +109,8 @@
 											Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
 										</div>
 										<div class="row p-2 options">
-											<a href="#" class="mr-2">Ngày đặt hàng: 20/06/2020</a> - 
-											<a href="#" class="ml-2">Địa chỉ giao hàng: 123 Trần Duy Hưng</a>
+											<a href="#" class="mr-2">Ngày đặt hàng: <span th:text="${invoice.cart_date}"></span></a> - 
+											<a href="#" class="ml-2">Địa chỉ giao hàng: <span th:text="${invoice.shipment.address}"></span></a>
 										</div>
 									</div>
 									

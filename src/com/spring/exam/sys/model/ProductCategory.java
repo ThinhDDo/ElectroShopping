@@ -14,6 +14,7 @@ public class ProductCategory {
 	private String image_detail;
 	private int percentage;
 	private String discount_desc;
+	private Details details;
 
 	public ProductCategory() {
 		super();
@@ -21,7 +22,7 @@ public class ProductCategory {
 
 	public ProductCategory(int id, String name, int quantity, float price, String description, int isNew,
 			int manufacturer_id, int category_id, String category_name, String image, String image_detail,
-			int percentage, String discount_desc) {
+			int percentage, String discount_desc, Details details) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -36,6 +37,7 @@ public class ProductCategory {
 		this.image_detail = image_detail;
 		this.percentage = percentage;
 		this.discount_desc = discount_desc;
+		this.details = details;
 	}
 
 	public int getId() {
@@ -142,13 +144,21 @@ public class ProductCategory {
 		this.discount_desc = discount_desc;
 	}
 
+	public Details getDetails() {
+		return details;
+	}
+
+	public void setDetails(Details details) {
+		this.details = details;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductCategory [id=" + id + ", name=" + name + ", quantity=" + quantity + ", price=" + price
 				+ ", description=" + description + ", isNew=" + isNew + ", manufacturer_id=" + manufacturer_id
 				+ ", category_id=" + category_id + ", category_name=" + category_name + ", image=" + image
 				+ ", image_detail=" + image_detail + ", percentage=" + percentage + ", discount_desc=" + discount_desc
-				+ "]";
+				+ ", details=" + details.toString() + "]";
 	}
 
 }

@@ -32,4 +32,9 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userDAO.updateUser(user);
 	}
+
+	@Override
+	public void updatePassword(UserInfo user) {
+		userDAO.updatePassword(user);
+	}
 }

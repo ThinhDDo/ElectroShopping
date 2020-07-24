@@ -4,6 +4,33 @@
 
 <mapper namespace="ProductCategoryMapper">
 	
+	<resultMap type="ProductCategory" id="cartDetails">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="quantity" column="quantity"/>
+		<result property="price" column="price"/>
+		<result property="description" column="description"/>
+		<result property="isNew" column="isNew"/>
+		<result property="manufacturer_id" column="manufacture_id"/>
+		<result property="category_id" column="category_id"/>
+		<result property="discount_id" column="discount_id"/>
+		<result property="discount_desc" column="discount_desc"/>
+		<result property="image" column="image"/>
+		<result property="percentage" column="percentage"/>
+		<result property="category_name" column="category_name"/>
+		
+		<collection property="details" ofType="Details" autoMapping="true">
+			<id property="id" column="id"/>
+			<result property="screen" column="screen"/>
+			<result property="size" column="size"/>
+			<result property="resolution" column="resolution"/>
+			<result property="os" column="os"/>
+			<result property="camera" column="camera"/>
+			<result property="shipset" column="shipset"/>
+			<result property="hardward" column="hardward"/>
+		</collection>
+	</resultMap>
+	
 	<select id="selectProducts" resultType="ProductCategory">
 		SELECT 
 			id, name, quantity, price, 
@@ -32,16 +59,18 @@
 		SELECT * FROM product where manufacturer_id = #{manufacturer_id}
 	</select>
 	
-	<select id="selectProductById" resultType="ProductCategory">
+	<select id="selectProductById" resultMap="cartDetails">
 		SELECT 
-			id, name, quantity, price, 
-			description, isNew, manufacturer_id, 
+			p.id, p.name, p.quantity, p.price, 
+			p.description, p.isNew, p.manufacturer_id, 
 			c.category_id, c.category_name, 
-			image, image_detail, d.percentage, d.discount_desc 
-		FROM PRODUCT p, CATEGORY c, discount d
-		WHERE id = #{id}
+			image, image_detail, d.percentage, d.discount_desc,
+			ds.id, ds.screen, ds.size, ds.resolution, ds.os, ds.camera, ds.chipset, ds.hardward
+		FROM PRODUCT p, CATEGORY c, discount d, product_attribute ds
+		WHERE p.id = #{id}
 		AND p.category_id = c.category_id
 		AND p.discount_id = d.discount_id
+		AND p.details = ds.id
 	</select>
 	
 	<select id="selectProductByName" parameterType="java.util.Map" resultType="ProductCategory">
