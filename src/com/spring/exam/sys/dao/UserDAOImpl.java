@@ -20,9 +20,7 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override
 	public void insertUser(UserInfo user) {
-		
-		String password = passwordEncoder.encode(user.getPassword());
-		user.setPassword(password);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		sqlSession.selectOne("UserMapper.insertUser", user);
 	}
 	
@@ -37,9 +35,8 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void updatePassword(UserInfo user) {
-		String password = passwordEncoder.encode(user.getPassword());
-		user.setPassword(password);
+	public void updatePassword(UserInfo user) {		
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		sqlSession.selectOne("UserMapper.updatePassword", user);
 	}
 }

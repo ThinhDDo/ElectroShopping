@@ -13,12 +13,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDAO userDAO;
 	
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-	
 	@Override
 	public void insertUser(UserInfo user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userDAO.insertUser(user);
 	}
 	
@@ -29,7 +25,6 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void updateUser(UserInfo user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userDAO.updateUser(user);
 	}
 

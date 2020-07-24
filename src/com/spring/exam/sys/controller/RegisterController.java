@@ -1,6 +1,9 @@
 package com.spring.exam.sys.controller;
 
+import java.io.UnsupportedEncodingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +19,7 @@ public class RegisterController {
 	@Autowired
 	private UserService userService;
 	
+	
 	@GetMapping(value="/register-form")
 	public String registerForm(Model model) {
 		
@@ -28,8 +32,20 @@ public class RegisterController {
 	@PostMapping(value="/register")
 	public String register(@ModelAttribute UserInfo user) {
 		
+		
+		// Fullname
+		byte[] fullname_bytes;
 		try {
-			userService.insertUser(user);	
+			fullname_bytes = user.getFullname().getBytes("ISO-8859-1");
+			String bfullname = new String(fullname_bytes, "UTF-8");
+			user.setFullname(bfullname);
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			userService.insertUser(user);
 		} catch(Exception e) {
 			return "redirect:/login?register=false";
 		}
