@@ -37,6 +37,6 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void updatePassword(UserInfo user) {		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		sqlSession.selectOne("UserMapper.updatePassword", user);
+		sqlSession.selectOne("UserMapper.updateUserPassword", user);
 	}
 }

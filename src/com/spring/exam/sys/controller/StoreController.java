@@ -42,12 +42,10 @@ public class StoreController {
 	 */
 	@GetMapping(value="/store/{cate}/page/{page}")
 	public String openStorePage(
-								//@SessionAttribute(name = "user", required = false) UserInfo userProfile,
 								HttpServletRequest request,
 								@PathVariable("page") int page,
 								@PathVariable("cate") String category_name,
-								Model model,
-								Authentication auth) {
+								Model model) {
 		PagedListHolder<?> pages;
 		List<ProductCategory> products = productCategoryService.selectProductsByCategory(category_name);
 		
@@ -62,7 +60,7 @@ public class StoreController {
 				pages.setPage(goToPage);
 			}
 		}
-		
+			
 		int begin = -1;
 		int end = -1;
 		int current = pages.getPage() + 1;
@@ -79,14 +77,7 @@ public class StoreController {
 
 		int totalPageCount = pages.getPageCount();
 		String baseUrl = "/store/"+ category_name +"/page/";
-		
-//		UserInfo userProfile = null;
-//		if(auth!=null) {
-//			if(auth.isAuthenticated()) {
-//				User loginUser = (User) auth.getPrincipal();
-//				userProfile = userService.selectUserByName(loginUser.getUsername());
-//			}
-//		}
+
 		
 		model.addAttribute("beginIndex", begin);
 		model.addAttribute("endIndex", end);

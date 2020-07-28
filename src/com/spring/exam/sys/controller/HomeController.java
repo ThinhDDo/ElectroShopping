@@ -101,15 +101,6 @@ public class HomeController {
 		model.addAttribute("categories", productCategoryService.selectCategories());
 		model.addAttribute("products", productCategoryService.selectProducts());
 		
-		// Extract cart products from cookie
-//		logger.info("COOKIE: " + cookie);
-//		if(!cookie.equals("")) {
-//			String[] cart = cookie.split("-");
-//			model.addAttribute("qtyHeader", cart.length);
-//		} else {			
-//			model.addAttribute("qtyHeader", 0);
-//		}
-		
 		return "index";
 	}
 	

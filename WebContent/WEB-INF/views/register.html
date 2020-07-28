@@ -8,19 +8,19 @@
 </head>
 <body style="background-image: linear-gradient(#00ffff, #0066ff	); height: 100vh;">
 	<div class="container form-section" style="max-width:50%; background-image: linear-gradient(#ffffff, #808080);">
-		<h1 class="text-center">Register Form</h1>
+		<h1 class="text-center">Đăng kí tài khoản mới</h1>
 		<form method="post" th:action="@{/register}" th:object="${newUser}">
 			<div class="form-group mt-3">
-				<input th:field="*{fullname}" type="text" class="form-control" placeholder="Your Full name" required> 
-				<input th:field=*{email} type="text" class="form-control mt-3" placeholder="Your email" required>
-				<input th:field="*{username}" type="text" class="form-control mt-3" placeholder="Your Username" required>
-				<input th:field="*{password}" type="password" class="form-control mt-3" placeholder="Your password" required>
+				<input th:field="*{fullname}" type="text" class="form-control" placeholder="Tên đầy đủ của bạn" required> 
+				<input th:field=*{email} type="text" class="form-control mt-3" placeholder="Email" required>
+				<input th:field="*{username}" type="text" class="form-control mt-3" placeholder="Nhập username" required>
+				<input th:field="*{password}" type="password" class="form-control mt-3" placeholder="Nhập password" required>
 				<input th:field="*{role_id}" type="text" class="form-control mt-3" placeholder="role" hidden="true">
 			</div>
 
 			<div class="d-flex justify-content-center">
-				<button type="submit" class="btn btn-success">Register</button>
-				<a th:href="@{/login}" class="btn btn-secondary ml-2">Back</a>
+				<button type="submit" class="btn btn-success">Tạo tài khoản</button>
+				<a th:href="@{/login}" class="btn btn-secondary ml-2">Trở về</a>
 			</div>
 		</form>
 	</div>

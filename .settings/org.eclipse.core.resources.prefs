@@ -1,3 +1,8 @@
 eclipse.preferences.version=1
+encoding//WebContent/WEB-INF/views/fragments/mainFooter.html=UTF-8
 encoding//WebContent/WEB-INF/views/fragments/mainHeader.html=UTF-8
 encoding//WebContent/WEB-INF/views/fragments/topHeader.html=UTF-8
+encoding//WebContent/WEB-INF/views/login.html=UTF-8
+encoding//WebContent/WEB-INF/views/profile.html=UTF-8
+encoding//WebContent/WEB-INF/views/register.html=UTF-8
+encoding//src/com/spring/exam/sys/controller/ProfileController.java=UTF-8

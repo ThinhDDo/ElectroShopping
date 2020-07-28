@@ -44,6 +44,9 @@ public class RegisterController {
 			e1.printStackTrace();
 		}
 		
+		// set avata
+		user.setAvata("user_male.png");
+		
 		try {
 			userService.insertUser(user);
 		} catch(Exception e) {
