@@ -36,6 +36,11 @@
 
     </head>
 	<body>
+	
+		<!-- Message Feedback success -->
+		<input id="feedbackSuccess" name="feedbackSuccess" th:value="${feedbackMessageSuccess}" value="Nothing here" hidden="true"/>
+		<input id="passwordSuccess" name="passwordSuccess" th:value="${passwordMessage}" value="Nothing here" hidden="true"/>
+	
 		<!-- HEADER -->
 		<header>
 			<!-- TOP HEADER -->
@@ -503,5 +508,20 @@
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
 		<script src="js/cart.js"></script>
+		
+		<script type="text/javascript">
+			// Feedback Message
+			$(document).ready(function() {
+				var feedbackMessage = document.getElementById('feedbackSuccess').value;
+				var passwordMessage = document.getElementById('passwordSuccess').value;
+				if(feedbackMessage!='') {
+					alert(feedbackMessage);	
+				}
+				if(passwordMessage!='') {
+					alert(passwordMessage);
+				}
+			});
+		</script>
+		
 	</body>
 </html>

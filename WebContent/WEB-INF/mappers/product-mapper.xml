@@ -70,7 +70,7 @@
 		WHERE p.id = #{id}
 		AND p.category_id = c.category_id
 		AND p.discount_id = d.discount_id
-		AND p.details = ds.id
+		AND ds.product_id = p.id
 	</select>
 	
 	<select id="selectProductByName" parameterType="java.util.Map" resultType="ProductCategory">

@@ -135,7 +135,8 @@ public class ProfileController {
 	public String savePassword(@RequestParam(name="oldPassword", defaultValue="", required=true) String oldPassword,
 							   @RequestParam(name="newPassword", defaultValue="", required=true) String newPassword,
 							   Model model,
-							   Authentication auth) {
+							   Authentication auth,
+							   RedirectAttributes redirectAttributes) {
 		
 		if(auth.isAuthenticated()) {
 			User loginUser = (User) auth.getPrincipal();
@@ -156,6 +157,7 @@ public class ProfileController {
 		
 		System.out.println("old: " + oldPassword);
 		System.out.println("new: " + newPassword);
+		redirectAttributes.addAttribute("passwordMessage", "Đã cập nhật mật khẩu thành công");
 		return "redirect:/";
 	}
 }

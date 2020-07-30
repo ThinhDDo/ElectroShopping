@@ -26,12 +26,12 @@ public class LoginController {
 		String errorMessage = null;
 		String successMessage = null;
         if(error.equals("true")) {
-            errorMessage = "Username or Password is incorrect !!";
+            errorMessage = "Username hoặc password của bạn không đúng!";
         }
         if(register.equals("true")) {
-        	successMessage = "Registered Successfully";
+        	successMessage = "Đăng kí thành công";
         } else if(register.equals("false")) {
-        	errorMessage = "Registed failed."; 
+        	errorMessage = "Đăng kí thất bại"; 
         } else {
         	;
         }

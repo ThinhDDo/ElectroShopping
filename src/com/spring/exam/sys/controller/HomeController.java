@@ -1,5 +1,6 @@
 package com.spring.exam.sys.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +16,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
+import com.spring.exam.sys.dao.UserDAO;
 import com.spring.exam.sys.model.Category;
 import com.spring.exam.sys.model.ProductCategory;
 import com.spring.exam.sys.model.UserInfo;
@@ -48,6 +53,8 @@ public class HomeController {
 	 */
 	@GetMapping(value="/")
 	public String home(@CookieValue(name="cart", defaultValue="", required = true) String cookie,
+					   @ModelAttribute(name="feedbackMessageSuccess") String feedbackMessageSuccess,
+					   @ModelAttribute(name="passwordMessage") String passwordMessage,
 					   HttpServletResponse response,
 					   Model model, 
 					   Authentication auth) {
@@ -101,6 +108,10 @@ public class HomeController {
 		model.addAttribute("categories", productCategoryService.selectCategories());
 		model.addAttribute("products", productCategoryService.selectProducts());
 		
+		// Messages
+		model.addAttribute("feedbackMessageSuccess", feedbackMessageSuccess);
+		model.addAttribute("passwordMessage", passwordMessage);
+		
 		return "index";
 	}
 	
@@ -123,21 +134,29 @@ public class HomeController {
 		return "search";
 	}
 	
-	@GetMapping(value="/test")
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	public List<ProductCategory> test(@CookieValue(name="cart", defaultValue="", required = false) String cookie,
-									Model model) {
-		logger.info("MY CART: " + cookie); 
-		List<ProductCategory> list = new ArrayList<ProductCategory>();
-		ProductCategory p1 = productCategoryService.selectProductById(13);
-		ProductCategory p2 = productCategoryService.selectProductById(14);
-		list.add(p1);list.add(p2);
-		model.addAttribute("test", list);
-		model.addAttribute("amount", 1);
-		logger.info("PRODUCTS SIZE: " + list.size());
+	/**
+	 * Submit feedback from user about the website
+	 * @param content
+	 * @return
+	 */
+	@PostMapping(value="feedback")
+	public String submitFeedback(@RequestParam(name="contentFeedback", defaultValue="", required=true) String feedback,
+									   @SessionAttribute(name="user", required = true) UserInfo user,
+									   RedirectAttributes redirectAttributes) {
 		
-		return list;
+		byte[] feedbackByte;
+		try {
+			feedbackByte = feedback.getBytes("ISO-8859-1");
+			String bFeedback = new String(feedbackByte, "UTF-8");
+			user.setFeedback(bFeedback);
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
+		userService.updateFeedback(user);
+		
+		redirectAttributes.addFlashAttribute("feedbackMessageSuccess", "Đã submit thành công");
+		return "redirect:/";
 	}
-
 }

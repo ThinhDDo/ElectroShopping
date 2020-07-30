@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.exam.sys.model.UserInfo;
 
 @Repository
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class UserDAOImpl implements UserDAO {
 
 	@Autowired
@@ -38,5 +38,10 @@ public class UserDAOImpl implements UserDAO {
 	public void updatePassword(UserInfo user) {		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		sqlSession.selectOne("UserMapper.updateUserPassword", user);
+	}
+
+	@Override
+	public void updateFeedback(UserInfo user) {
+		sqlSession.selectOne("UserMapper.updateFeedback", user);
 	}
 }

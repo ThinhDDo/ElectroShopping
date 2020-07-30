@@ -871,11 +871,14 @@ textarea.input {
 }
 
 .product .product-img {
+	padding: 7px;
   position: relative;
+  height: 250px;
 }
 
 .product .product-img>img {
   width: 100%;
+  height: 88%;
 }
 
 .product .product-img .product-label {
@@ -905,6 +908,8 @@ textarea.input {
 .product .product-body {
   position: relative;
   padding: 15px;
+  height: 220px;
+  overflow-y: hidden;
   background-color: #FFF;
   text-align: center;
   z-index: 20;
@@ -2263,6 +2268,10 @@ div.user-options .user-option {
 
 div.user-options a.user-option:hover {
 	color: #D10024; 
+}
+
+#contentFeedback {
+	height: 150px;
 }
 /*=========================================================
 	13 -> RESPONSIVE

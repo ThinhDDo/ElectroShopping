@@ -7,4 +7,5 @@ public interface UserService {
 	UserInfo selectUserByName(String username);
 	void updateUser(UserInfo user);
 	void updatePassword(UserInfo user);
+	void updateFeedback(UserInfo user);
 }

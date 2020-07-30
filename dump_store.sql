@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.20, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
 -- Host: localhost    Database: store
 -- ------------------------------------------------------
--- Server version	8.0.20
+-- Server version	8.0.19
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -111,7 +111,7 @@ DROP TABLE IF EXISTS `discount`;
 CREATE TABLE `discount` (
   `discount_id` int NOT NULL AUTO_INCREMENT,
   `percentage` int DEFAULT NULL,
-  `discount_desc` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `discount_desc` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`discount_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -138,7 +138,7 @@ CREATE TABLE `manufacturer` (
   `manufacturer_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `image` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`manufacturer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +147,7 @@ CREATE TABLE `manufacturer` (
 
 LOCK TABLES `manufacturer` WRITE;
 /*!40000 ALTER TABLE `manufacturer` DISABLE KEYS */;
-INSERT INTO `manufacturer` VALUES (1,'Samsung','Samsung42.jpg'),(2,'IPhone','iPhone-(Apple).jpg'),(3,'Vivo','Vivo42.jpg'),(4,'Xiaomi','Xiaomi42.jpg'),(5,'Oppo','OPPO42.png'),(6,'VSmart','Vsmart42.png');
+INSERT INTO `manufacturer` VALUES (1,'Samsung','Samsung42.jpg'),(2,'IPhone','iPhone-(Apple).jpg'),(3,'Vivo','Vivo42.jpg'),(4,'Xiaomi','Xiaomi42.jpg'),(5,'Oppo','OPPO42.png'),(6,'VSmart','Vsmart42.png'),(7,'Asus',NULL);
 /*!40000 ALTER TABLE `manufacturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,7 +164,6 @@ CREATE TABLE `product` (
   `quantity` int NOT NULL,
   `price` float NOT NULL,
   `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `details` int DEFAULT NULL,
   `isNew` int DEFAULT '0',
   `manufacturer_id` int DEFAULT NULL,
   `category_id` int DEFAULT NULL,
@@ -175,12 +174,10 @@ CREATE TABLE `product` (
   KEY `manufacturer` (`manufacturer_id`),
   KEY `type_id` (`category_id`),
   KEY `discount_id` (`discount_id`),
-  KEY `details` (`details`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`manufacturer_id`) REFERENCES `manufacturer` (`manufacturer_id`),
   CONSTRAINT `product_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON UPDATE CASCADE,
-  CONSTRAINT `product_ibfk_4` FOREIGN KEY (`discount_id`) REFERENCES `discount` (`discount_id`) ON UPDATE CASCADE,
-  CONSTRAINT `product_ibfk_5` FOREIGN KEY (`details`) REFERENCES `product_attribute` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  CONSTRAINT `product_ibfk_4` FOREIGN KEY (`discount_id`) REFERENCES `discount` (`discount_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +186,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (13,'Xiaomi Redmi 9 (4GB/64GB)',10,3999000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,0,4,1,1,'xiaomi-redmi-9-(10).jpg',''),(14,'Samsung Galaxy A31',10,5840000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,0,1,1,2,'samsung-galaxy-a21s-055620-045627-400x460.png',''),(15,'Phone SE 256GB 2020',10,17490000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',2,1,2,1,4,'iphone-7-gold-400x460.png',''),(16,'Vivo V19',10,8590000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,0,3,1,1,'vivo-y30-xanh-400x460-400x460.png',''),(17,'OPPO A92',10,6490000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,1,5,1,2,'oppo-a92-tim-400x460-400x460.png',''),(18,'Vsmart Star 4',10,2190000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,1,6,1,3,'vsmart-star-4-den-400x460-400x460.png',''),(19,'iPhone SE 64GB (2020)',10,12490000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',2,0,2,1,4,'iphone-se-2020-do-400x460-400x460.png',''),(20,'Xiaomi Redmi 9 (4GB/64GB)',10,3999000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,1,4,1,1,'xiaomi-mi-note-10-lite-400x460-trang-1-400x460.png',''),(21,'Samsung Galaxy A31',10,5840000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,0,1,1,3,'samsung-galaxy-fold-black-400x460.png',''),(22,'Phone SE 256GB 2020',10,17490000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',2,1,2,1,2,'iphone-11-256gb-black-400x460.png',''),(23,'Vivo V19',10,8590000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,0,3,1,1,'vivo-v19-neo-den-400x460-1-400x460.png',''),(24,'OPPO A92',10,6490000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,1,5,1,2,'oppo-a91-trang-400x460-1-400x460.png',''),(25,'Vsmart Star 4',10,2190000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,1,6,1,1,'vsmart-joy-3-2gb-tim-400x460-400x460.png','');
+INSERT INTO `product` VALUES (13,'Xiaomi Redmi 9 (4GB/64GB)',10,3999000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',0,4,1,1,'xiaomi-redmi-9-(10).jpg',''),(14,'Samsung Galaxy A31',10,5840000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',0,1,1,2,'samsung-galaxy-a21s-055620-045627-400x460.png',''),(15,'Phone SE 256GB 2020',10,17490000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,2,1,4,'iphone-7-gold-400x460.png',''),(16,'Vivo V19',10,8590000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',0,3,1,1,'vivo-y30-xanh-400x460-400x460.png',''),(17,'OPPO A92',10,6490000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,5,1,2,'oppo-a92-tim-400x460-400x460.png',''),(18,'Vsmart Star 4',10,2190000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,6,1,3,'vsmart-star-4-den-400x460-400x460.png',''),(19,'iPhone SE 64GB (2020)',10,12490000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',0,2,1,4,'iphone-se-2020-do-400x460-400x460.png',''),(20,'Xiaomi Redmi 9 (4GB/64GB)',10,3999000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,4,1,1,'xiaomi-mi-note-10-lite-400x460-trang-1-400x460.png',''),(21,'Samsung Galaxy A31',10,5840000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',0,1,1,3,'samsung-galaxy-fold-black-400x460.png',''),(22,'Phone SE 256GB 2020',10,17490000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,2,1,2,'iphone-11-256gb-black-400x460.png',''),(23,'Vivo V19',10,8590000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',0,3,1,1,'vivo-v19-neo-den-400x460-1-400x460.png',''),(24,'OPPO A92',10,6490000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,5,1,2,'oppo-a91-trang-400x460-1-400x460.png',''),(25,'Vsmart Star 4',10,2190000,'Samsung Galaxy A21s là chiếc điện thoại tầm trung mới của Samsung, mang trong mình có thiết kế màn hình nốt ruồi thời thượng, cùng cụm 4 camera sau độ phân giải lên đến 48 MP hỗ trợ nhiều tính năng chụp ảnh hấp dẫn.',1,6,1,1,'vsmart-joy-3-2gb-tim-400x460-400x460.png',''),(26,'Laptop ASUS VivoBook X407MA-BV169T',10,7290000,'Asus X407MA-BV169T là một giải pháp khá hoàn hảo cho những ai cần 1 chiếc laptop có thể đáp ứng đủ nhu cầu cơ bản trong khi mức giá phải thật rẻ. ',1,7,2,1,'laptop.jpg',NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -202,15 +199,18 @@ DROP TABLE IF EXISTS `product_attribute`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product_attribute` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `screen` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `size` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `resolution` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `os` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `camera` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `chipset` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `hardward` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `screen` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `size` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `resolution` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `os` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `camera` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `chipset` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hardward` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `product_attribute_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,7 +219,7 @@ CREATE TABLE `product_attribute` (
 
 LOCK TABLES `product_attribute` WRITE;
 /*!40000 ALTER TABLE `product_attribute` DISABLE KEYS */;
-INSERT INTO `product_attribute` VALUES (1,'LCD','6.5 inches','1080x1920','Android 10','12MP','Snapdragon 855','8BG/128GB'),(2,'Retina','6.5','1080x1920','IOS 12','12MP','Chipset A10','8GB/128GB');
+INSERT INTO `product_attribute` VALUES (1,'LCD','6.5 inches','1080x1920','Android 10','12MP','Snapdragon 855','8BG/128GB',13),(2,'Retina','6.5','1080x1920','IOS 12','12MP','Chipset A10','8GB/128GB',14),(3,'Retina','6.5','1080x1920','IOS 12','12MP','Chipset A10','8GB/128GB',15),(4,'Retina','6.5','1080x1920','IOS 12','12MP','Chipset A10','8GB/128GB',16),(5,'Retina','6.5','1080x1920','IOS 12','12MP','Chipset A10','8GB/128GB',17),(6,'Retina','6.5','1080x1920','IOS 12','12MP','Chipset A10','8GB/128GB',18),(7,'Retina','6.5','1080x1920','IOS 12','12MP','Chipset A10','8GB/128GB',19),(8,'Retina','6.5','1080x1920','IOS 12','12MP','Chipset A10','8GB/128GB',20),(9,'Retina','6.5','1080x1920','IOS 12','12MP','Chipset A10','8GB/128GB',21),(10,'Retina','6.5','1080x1920','IOS 12','12MP','Chipset A10','8GB/128GB',22),(11,'Retina','6.5','1080x1920','IOS 12','12MP','Chipset A10','8GB/128GB',23);
 /*!40000 ALTER TABLE `product_attribute` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,6 +305,55 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES ('Do Duy Sang','thinh@gmail.com','0377725445','Nhà Bè, Việt Nam','1999-08-24','admin','$2a$10$DJylXVNW5oIOBxuNg8FLoOre4dDTBy8s1mvAg8NXQRyrSXCI2s9ny',NULL,2),('Đỗ Duy Thịnh','user@gmail.com','0977726444','Hồ Chí Minh, Việt Nam','1999-08-24','user','$2a$10$CK1osM/kumphzS70EP1kY.GtMVcrOYwettFzsiK.mYlmM3xWziicK','white_cat.jpg',1),('Tran Duy Thinh','tranthinh@gmail.com',NULL,NULL,NULL,'user2','$2a$10$tlMkQPEG.uzpbXF7WichA.CFRBVgzHyC3uZc30WszoVPG7Iwou8tC',NULL,1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'store'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `AddNewCart` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddNewCart`(
+							in address varchar(256), in notes varchar(100), -- for shipment
+							in username varchar(256), in cart_date date, in country varchar(256), in zipcode varchar(256), in city varchar(256),
+                            out cid int)
+BEGIN
+	INSERT INTO SHIPMENT(address, notes) VALUES (address, notes);
+	set @shipment_id = last_insert_id();
+	INSERT INTO CART (username, cart_date, country, zipcode, city, ship_id) VALUES (username, cart_date, country, zipcode, city, @shipment_id);
+    set cid = last_insert_id();
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `DeleteCart` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteCart`(in cid int)
+begin
+	DELETE FROM CART WHERE cart_id = cid;
+    DELETE FROM CART_DETAIL WHERE cart_id = cid;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -315,4 +364,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-24 12:40:03
+-- Dump completed on 2020-07-31  3:17:01

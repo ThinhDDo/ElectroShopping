@@ -31,9 +31,38 @@
 						    <a class="dropdown-item user-option" href="#" th:href="@{/profile}">Thông tin cá nhân</a>
 						    <a class="dropdown-item user-option" href="#" th:href="@{/history}">Lịch sử đơn hàng</a>
 						    <a class="dropdown-item user-option" data-toggle="modal" data-target="#changePassword" href="#">Đổi mật khẩu</a>
+						    <a class="dropdown-item user-option" data-toggle="modal" data-target="#feedback" href="#">Feedbacks</a>
 						  </div>
 						</div>
 						
+						<!-- Submit feedback modal -->
+						<div class="modal fade" id="feedback" tabindex="-1" role="dialog">
+						  <div class="modal-dialog" role="document">
+						    
+						    	<div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title">Tạo phản hồi</h5>
+							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							          <span aria-hidden="true">&times;</span>
+							        </button>
+							      </div>
+							      <form th:action="@{/feedback}" method="post">
+								      <div class="modal-body">
+								        <div class="form-group">
+										    <label for="oldPasswordInput">Nội dung</label>
+										    <textarea class="form-control" id="contentFeedback" name="contentFeedback" placeholder="Viết nội dung phản hồi ở đây..."></textarea>
+									  	</div>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="submit" class="btn btn-primary">Gửi phản hồi</button>
+								        <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+								      </div>
+							      </form>
+							    </div>
+						  </div>
+						</div>
+						
+						<!-- Change password modal -->
 						<div class="modal fade" id="changePassword" tabindex="-1" role="dialog">
 						  <div class="modal-dialog" role="document">
 						    
@@ -57,8 +86,8 @@
 										  </div>
 								      </div>
 								      <div class="modal-footer">
-								        <button type="submit" class="btn btn-primary">Save changes</button>
-								        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								        <button type="submit" class="btn btn-primary">Lưu mật khẩu</button>
+								        <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
 								      </div>
 							      </form>
 							    </div>
