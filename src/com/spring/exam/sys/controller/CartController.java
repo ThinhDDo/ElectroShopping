@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -161,14 +162,24 @@ public class CartController {
 	 * @return
 	 */
 	@GetMapping(value="/history")
-	public String historyCart(@CookieValue(name="cart", defaultValue="", required=true) String cookie,
-							  @SessionAttribute("user") UserInfo user,
+	public String historyCart(@SessionAttribute("user") UserInfo user,
 							  Model model) {
 		List<Cart> invoices = cartService.selectCartsByUsername(user.getUsername());
 		model.addAttribute("invoices", invoices);
 		// Create essential model
 		model.addAttribute("category", new Category()); // For searching
 		return "history";
+	}
+	
+	@GetMapping(value="/view/{cart_id}")
+	public String detailsCart(@PathVariable int cart_id,
+							  Model model) {
+		Cart viewDetails = cartService.selectCartById(cart_id);
+		
+		// Create essential model
+		model.addAttribute("category", new Category()); // For searching
+		model.addAttribute("detail", viewDetails);
+		return "details";
 	}
 	
 	/**
@@ -181,7 +192,8 @@ public class CartController {
 							 @SessionAttribute(name="mycart", required=true) List<ProductCategory> products,
 			 				 @CookieValue(name="cart", defaultValue="", required=true) String cookie,
 							 @ModelAttribute(name = "cartInfo") Cart cart,
-							 HttpServletResponse response) {
+							 HttpServletResponse response,
+							 Model model) {
 		
 		// If cookie is empty than redirect to Cart page
 		if(cookie.equals("")) {
@@ -212,6 +224,8 @@ public class CartController {
 		
 		// Reset Cookie
 		response.addCookie(new Cookie("cart", ""));
+		products.clear();
+		model.addAttribute("mycart", products);
 		
 		return "redirect:/history";
 	}
@@ -249,6 +263,4 @@ public class CartController {
 		
 		return "redirect:/cart";
 	}
-	
-	
 }

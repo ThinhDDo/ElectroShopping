@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-	<head>
+	<head th:replace="fragments/head :: head">
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,10 +51,10 @@
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12">
-						<h3 class="breadcrumb-header">LỊCH SỬ ĐẶT HÀNG</h3>
+						<h3 class="breadcrumb-header">CHI TIẾT GIỎ HÀNG</h3>
 						<ul class="breadcrumb-tree">
 							<li><a href="#" th:href="@{/}">Home</a></li>
-							<li class="active">History</li>
+							<li class="active">Details</li>
 						</ul>
 					</div>
 				</div>
@@ -73,82 +73,75 @@
 					<!-- cart items 1st day -->
 					<div class="row cart-items">
 						<!-- /cart item -->
-						<th:block th:if="${#lists.isEmpty(invoices)}">
-							<div class="col-lg-12">
-								<img style="width:inherit;" class="img-empty" th:src="@{/img/empty_cart.jpg}" />
+						
+						<th:block th:unless="${#lists.isEmpty(detail.products)}">
+							<div class="row cart-item" th:each="product,iter : ${detail.products}">
+								<div class="col-lg-1 cart-item-stt">
+									<h4 th:text="${iter.index + 1}">-1</h4>
+								</div>
+								<div class="col-lg-2">
+									<a th:href="@{/product(pid=${product.id})}">
+										<img th:src="@{/img/products/{img}(img=${product.image})}" src="img/products/iphone-se-2020-do-400x460-400x460.png" alt="..." class="img-cart-item">
+									</a>
+								</div>
+								<div class="col-lg-4 cart-item-name" style="text-align: left;">
+									<div class="row p-2" th:text="${product.name}">
+										Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+									</div>
+									<div class="row p-2 options">
+										<a href="#" class="mr-2">Ngày đặt hàng: <span th:text="${detail.cart_date}"></span></a> - 
+										<a href="#" class="ml-2">Địa chỉ giao hàng: <span th:text="${detail.shipment.address}"></span></a>
+									</div>
+								</div>
+								
+								<div class="col-lg-3 cart-item-price">
+									<p th:text="${#numbers.formatDecimal(product.price, 3, 'COMMA', 0, 'POINT') + 'đ'}">10.000.000.000 VND</p>
+								</div>
+								
+								<div class="col-lg-2 cart-item-amount">
+									<p id="item-amount" th:text="'x' + ${product.quantity}"></p>
+								</div>
 							</div>
 						</th:block>
-						
-<!-- 						<th:block th:unless="${#lists.isEmpty(invoices)}"> -->
-<!-- 							<th:block th:each="invoice,iter : ${invoices}"> -->
-<!-- 								<div class="row cart-item" th:each="product : ${invoice.products}"> -->
-<!-- 									<div class="col-lg-1 cart-item-stt"> -->
-<!-- 										<h4 th:text="${iter.index + 1}">-1</h4> -->
-<!-- 									</div> -->
-<!-- 									<div class="col-lg-2"> -->
-<!-- 										<a th:href="@{/product(pid=${product.id})}"> -->
-<!-- 											<img th:src="@{/img/products/{img}(img=${product.image})}" src="img/products/iphone-se-2020-do-400x460-400x460.png" alt="..." class="img-cart-item"> -->
-<!-- 										</a> -->
-<!-- 									</div> -->
-<!-- 									<div class="col-lg-4 cart-item-name" style="text-align: left;"> -->
-<!-- 										<div class="row p-2" th:text="${product.name}"> -->
-<!-- 											Lorem Ipsum is simply dummy text of the printing and typesetting industry.  -->
-<!-- 										</div> -->
-<!-- 										<div class="row p-2 options"> -->
-<!-- 											<a href="#" class="mr-2">Ngày đặt hàng: <span th:text="${invoice.cart_date}"></span></a> -  -->
-<!-- 											<a href="#" class="ml-2">Địa chỉ giao hàng: <span th:text="${invoice.shipment.address}"></span></a> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-									
-<!-- 									<div class="col-lg-3 cart-item-price"> -->
-<!-- 										<p th:text="${#numbers.formatDecimal(product.price, 3, 'COMMA', 0, 'POINT') + 'đ'}">10.000.000.000 VND</p> -->
-<!-- 									</div> -->
-									
-<!-- 									<div class="col-lg-2 cart-item-amount"> -->
-<!-- 										<p id="item-amount" th:text="'x' + ${product.quantity}"></p> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
+<!-- 							<th:block th:unless="${#lists.isEmpty(invoices)}"> -->
+<!-- 								<table class="table table-hover"> -->
+<!-- 								  <thead> -->
+<!-- 								    <tr> -->
+<!-- 								      <th scope="col" class="text-center">Mã đơn hàng</th> -->
+<!-- 								      <th scope="col">Ngày mua</th> -->
+<!-- 								      <th scope="col">(Số lượng) Sản phẩm</th> -->
+<!-- 								      <th scope="col">Tổng tiền</th> -->
+<!-- 								      <th scope="col">Trạng thái đơn hàng</th> -->
+<!-- 								    </tr> -->
+<!-- 								  </thead> -->
+<!-- 								  <tbody> -->
+<!-- 								    <tr th:each="invoice : ${invoices}"> -->
+<!-- 								      <th scope="row" class="text-center"> -->
+<!-- 								      	<a href="#" th:text="${invoice.cart_id}">xxx</a> -->
+<!-- 								      </th> -->
+<!-- 								      <td th:text="${#temporals.format(invoice.cart_date, 'dd-MM-yyyy')}">dd/mm/yyyy</td> -->
+<!-- 								      <td> -->
+<!-- 								      	<th:block th:each="product : ${invoice.products}"> -->
+<!-- 								      		<p th:utext="'(x' + ${product.quantity} + ') ' + ${product.name} + '<br>'"></p> -->
+<!-- 								      	</th:block> -->
+<!-- 								      </td> -->
+<!-- 								      <th:block th:with="totalPrices=${#aggregates.sum(invoice.products.![price])}"> -->
+<!-- 								      	<td th:text="${#numbers.formatDecimal(totalPrices, 3, 'COMMA', 0, 'POINT')} + 'đ'">xxx.xxx.xxx đ</td> -->
+<!-- 								      </th:block> -->
+<!-- 								      <td>Đã nhận hàng</td> -->
+<!-- 								    </tr> -->
+<!-- 								  </tbody> -->
+<!-- 								</table> -->
 <!-- 							</th:block> -->
-<!-- 						</th:block> -->
-							<th:block th:unless="${#lists.isEmpty(invoices)}">
-								<table class="table table-hover">
-								  <thead>
-								    <tr>
-								      <th scope="col" class="text-center">Mã đơn hàng</th>
-								      <th scope="col">Ngày mua</th>
-								      <th scope="col">(Số lượng) Sản phẩm</th>
-								      <th scope="col">Tổng tiền</th>
-								      <th scope="col">Trạng thái đơn hàng</th>
-								    </tr>
-								  </thead>
-								  <tbody>
-								    <tr th:each="invoice : ${invoices}">
-								      <th scope="row" class="text-center">
-								      	<a href="#" th:href="@{/view/{cart_id}(cart_id=${invoice.cart_id})}" th:text="${invoice.cart_id}">xxx</a>
-								      </th>
-								      <td th:text="${#temporals.format(invoice.cart_date, 'dd-MM-yyyy')}">dd/mm/yyyy</td>
-								      <td>
-								      	<th:block th:each="product : ${invoice.products}">
-								      		<p th:utext="'(x' + ${product.quantity} + ') ' + ${product.name} + '<br>'"></p>
-								      	</th:block>
-								      </td>
-								      <th:block th:with="totalPrices=${#aggregates.sum(invoice.products.![price])}">
-								      	<td th:text="${#numbers.formatDecimal(totalPrices, 3, 'COMMA', 0, 'POINT')} + 'đ'">xxx.xxx.xxx đ</td>
-								      </th:block>
-								      <td>Đã nhận hàng</td>
-								    </tr>
-								  </tbody>
-								</table>
-							</th:block>
 						<!-- /cart item -->
 					</div>
 					<!-- /cart header -->
 					
 					<!-- banner cart info -->
-					<div class="row cart-banner" th:if="${#lists.size(invoices)!=0}">
+					<div class="row cart-banner" th:if="${#lists.size(detail.products)!=0}">
 						<div class="col-lg-12 col-md-6">
 							<div class="text-right">
-								<h3>Tổng số lượng đơn hàng: <span th:text="${#lists.size(invoices)} + ' đơn hàng'"></span></h3>
+								<h3>Tổng số lượng sản phẩm: <span th:text="${#lists.size(detail.products)} + ' sản phẩm'"></span></h3>
 							</div>
 						</div>
 					</div>
@@ -294,12 +287,13 @@
 		<!-- /FOOTER -->
 
 		<!-- jQuery Plugins -->
-		<script src="js/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/slick.min.js"></script>
-		<script src="js/nouislider.min.js"></script>
-		<script src="js/jquery.zoom.min.js"></script>
-		<script src="js/main.js"></script>
+		<script th:src="@{/js/jquery.min.js}" src="js/jquery.min.js"></script>
+		<script th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js"></script>
+		<script th:src="@{/js/slick.min.js}" src="js/slick.min.js"></script>
+		<script th:src="@{/js/nouislider.min.js}" src="js/nouislider.min.js"></script>
+		<script th:src="@{/js/jquery.zoom.min.js}" src="js/jquery.zoom.min.js"></script>
+		<script th:src="@{/js/cart.js}" src="js/cart.js"></script>
+		<script th:src="@{/js/main.js}" src="js/main.js"></script>
 
 	</body>
 </html>

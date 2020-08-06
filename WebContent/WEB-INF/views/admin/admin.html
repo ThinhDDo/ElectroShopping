@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,500,700}" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+	
+	<!-- Sidenav menu -->
+    <link rel="stylesheet" href="vendor/css/sidenav.css" th:href="@{/css/sidenav.css}">
+    <title>Side navigation demo</title>
+</head>
+<body>
+    
+    <!-- SIDENAV MENU -->
+    <div class="sidebar">
+        <a class="active" href="home.html" th:href="@{home.html}">Home</a>
+        <a href="news.html" th:href="@{news.html}">News</a>
+    </div>
+    
+    <div class="content"></div>
+	
+ 	<!-- jQuery Plugins -->
+	<script th:src="@{/js/jquery.min.js}" src="js/jquery.min.js"></script>
+	<script th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js"></script>
+	<script th:src="@{/js/sidenav.js}" src="js/sidenav.js"></script>
+</body>
+</html>

@@ -115,6 +115,14 @@ public class HomeController {
 		return "index";
 	}
 	
+	/**
+	 * Search product by Name and Category
+	 * @param categories
+	 * @param category
+	 * @param searchProduct
+	 * @param model
+	 * @return
+	 */
 	@PostMapping(value="/search")
 	public String searchProduct(@SessionAttribute("categories") List<Category> categories,
 								@ModelAttribute("category") Category category, 

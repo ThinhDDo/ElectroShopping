@@ -24,4 +24,9 @@ public class CartServiceImpl implements CartService {
 		return cartDAO.selectCartsByUsername(username);
 	}
 
+	@Override
+	public Cart selectCartById(int cart_id) {
+		return cartDAO.selectCartById(cart_id);
+	}
+
 }

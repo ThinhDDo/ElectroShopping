@@ -8,4 +8,5 @@ import com.spring.exam.sys.model.Cart;
 public interface CartDAO {
 	void insertNewCart(Cart cart);
 	List<Cart> selectCartsByUsername(String username);
+	Cart selectCartById(int cart_id);
 }

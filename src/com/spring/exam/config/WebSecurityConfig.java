@@ -40,13 +40,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		// Grant access to specific url (Mapping path ->> role)
 		http.authorizeRequests()
-			.antMatchers("/login").permitAll()
-			.antMatchers("/css/**").permitAll()
-			.antMatchers("/js/**").permitAll()
-			.antMatchers("/img/**").permitAll()
-			.antMatchers("/fonts/**").permitAll()
-			.antMatchers("/profile", "/checkout/**","/cart/**", "/history/**").hasAnyRole("USER", "ADMIN")
+			.antMatchers("/login", "/css/**", "/js/**", "/img/**", "/fonts/**").permitAll()
+			.antMatchers("/profile", "/checkout/**","/cart/**", "/history/**", "/details/**").hasAnyRole("USER", "ADMIN")
 			.antMatchers("/store/**", "/search/**", "/product/**", "/register").permitAll()
+			.antMatchers("/admin/**").permitAll()
 		.and()
 			.formLogin()
 			.loginPage("/login") // Login Controller

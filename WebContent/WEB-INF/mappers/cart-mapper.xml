@@ -71,4 +71,17 @@
 		AND c.ship_id = m.ship_id
 	</select>
 	
+	<select id="selectCartById" resultMap="cartOfUser" parameterType="int">
+		SELECT 
+			c.cart_id, c.cart_date, c.city, c.country, 
+			c.zipcode, c.username, cd.amount, 
+			p.id, p.name, p.image, p.price, p.isNew,
+			m.ship_id, m.address, m.notes
+		FROM cart c, cart_detail cd, product p, shipment m
+		WHERE c.cart_id = #{cart_id}
+		AND c.cart_id = cd.cart_id
+		AND p.id = cd.product_id
+		AND c.ship_id = m.ship_id
+	</select>
+	
 </mapper>

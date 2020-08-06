@@ -64,33 +64,45 @@
 							</a>
 							
 							<div class="cart-dropdown">
-								<div class="cart-list">
-									<div class="product-widget" th:each="product : ${mycart}">
-										<div class="product-img">
-											<img id="product-widget-img" alt="" th:src="@{/img/products/{img}(img=${product.image})}">
-										</div>
-										<div class="product-body">
-											<h3 class="product-name">
-												<a href="#" th:text="${product.name}">product name goes here</a>
-											</h3>
-											<h4 class="product-price" th:text="${#numbers.formatDecimal(product.price, 3, 'COMMA', 0, 'POINT')}">
-												$980.00
-											</h4>
-											<span class="qty" th:text="'x' + ${product.quantity}">1x</span>
-										</div>
-										<button class="delete">
-											<i class="fa fa-close"></i>
-										</button>
+								<th:block th:if="${#lists.isEmpty(mycart)}">
+									<div class="cart-summary" style="border-top:none;">
+										<h5 th:text="'Chưa  có sản phẩm nào trong giỏ'">...</h5>
 									</div>
-								</div>
-								<div class="cart-summary">
-									<small th:text="${#lists.size(mycart)} + ' Item(s) selected'">3 Item(s) selected</small>
-									<h5 th:text="'Tạm tính: ' + ${#numbers.formatDecimal(totalPrices, 3, 'COMMA', 0, 'POINT')}">SUBTOTAL: $2940.00</h5>
-								</div>
-								<div class="cart-btns">
-									<a th:href="@{/cart}">View Cart</a> 
-									<a th:href="@{/checkout}">Checkout <i class="fa fa-arrow-circle-right"></i></a>
-								</div>
+									<div class="cart-btns">
+										<a th:href="@{/cart}">Giỏ hàng</a> 
+										<a th:href="@{/checkout}">Thanh toán <i class="fa fa-arrow-circle-right"></i></a>
+									</div>
+								</th:block>
+								
+								<th:block th:if="not ${#lists.isEmpty(mycart)}">
+									<div class="cart-list">
+										<div class="product-widget" th:each="product : ${mycart}">
+											<div class="product-img">
+												<img id="product-widget-img" alt="" th:src="@{/img/products/{img}(img=${product.image})}">
+											</div>
+											<div class="product-body">
+												<h3 class="product-name">
+													<a href="#" th:text="${product.name}">product name goes here</a>
+												</h3>
+												<h4 class="product-price" th:text="${#numbers.formatDecimal(product.price, 3, 'COMMA', 0, 'POINT')}">
+													$980.00
+												</h4>
+												<span class="qty" th:text="'x' + ${product.quantity}">1x</span>
+											</div>
+											<button class="delete">
+												<i class="fa fa-close"></i>
+											</button>
+										</div>
+									</div>
+									<div class="cart-summary">
+										<small th:text="${#lists.size(mycart)} + ' Item(s) selected'">3 Item(s) selected</small>
+										<h5 th:text="'Tạm tính: ' + ${#numbers.formatDecimal(totalPrices, 3, 'COMMA', 0, 'POINT')}">SUBTOTAL: $2940.00</h5>
+									</div>
+									<div class="cart-btns">
+										<a th:href="@{/cart}">View Cart</a> 
+										<a th:href="@{/checkout}">Checkout <i class="fa fa-arrow-circle-right"></i></a>
+									</div>
+								</th:block>
 							</div>
 						</div>
 						<!-- /Cart -->
