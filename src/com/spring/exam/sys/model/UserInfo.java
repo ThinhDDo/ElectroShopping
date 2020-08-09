@@ -3,7 +3,9 @@ package com.spring.exam.sys.model;
 import java.time.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserInfo {
 	private String fullname;
 	private String email;

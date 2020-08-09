@@ -4,7 +4,7 @@
 
 <mapper namespace="ProductCategoryMapper">
 	
-	<resultMap type="ProductCategory" id="cartDetails">
+	<resultMap type="ProductCategory" id="productDetails">
 		<id property="id" column="id"/>
 		<result property="name" column="name"/>
 		<result property="quantity" column="quantity"/>
@@ -59,7 +59,7 @@
 		SELECT * FROM product where manufacturer_id = #{manufacturer_id}
 	</select>
 	
-	<select id="selectProductById" resultMap="cartDetails">
+	<select id="selectProductById" resultMap="productDetails">
 		SELECT 
 			p.id, p.name, p.quantity, p.price, 
 			p.description, p.isNew, p.manufacturer_id, 

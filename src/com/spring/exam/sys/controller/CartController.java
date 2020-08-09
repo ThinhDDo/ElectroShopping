@@ -67,6 +67,7 @@ public class CartController {
 		int numberOfProducts = 0; // The amount of products that user bought
 		double totalPrices = 0.0; // Temporary Total Prices (before sale)
 		
+		// Get cart from cookie
 		if(!cookie.equals("")) {
 			String[] cart = cookie.split("-"); // id:quantity
 			

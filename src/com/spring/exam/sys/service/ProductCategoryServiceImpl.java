@@ -39,13 +39,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService, Pagea
 	public List<ProductCategory> selectProductsByName(String name, int category_id) {
 		return productCategoryDAO.selectProductByName(name, category_id);
 	}
-
-	@Override
-	public int getTotalPages() {
-		int pageSize = productCategoryDAO.selectProducts().size();
-		return pageSize % 2 == 0 ? pageSize/6 : (pageSize/6) + 1 ;
-	}
-
+	
 	@Override
 	public List<Category> selectCategories() {
 		return productCategoryDAO.selectCategories();
@@ -55,4 +49,11 @@ public class ProductCategoryServiceImpl implements ProductCategoryService, Pagea
 	public List<ProductCategory> selectProductsByCategory(String category_name) {
 		return productCategoryDAO.selectProductsByCategory(category_name);
 	}
+	
+	@Override
+	public int getTotalPages() {
+		int pageSize = productCategoryDAO.selectProducts().size();
+		return pageSize % 2 == 0 ? pageSize/6 : (pageSize/6) + 1 ;
+	}
+
 }

@@ -22,7 +22,8 @@
 		email = #{email}, 
 		phone = #{phone},
 		address = #{address},
-		birthday = #{birthday}
+		birthday = #{birthday},
+		avata = #{avata}
 		WHERE username like #{username}
 	</update>
 	

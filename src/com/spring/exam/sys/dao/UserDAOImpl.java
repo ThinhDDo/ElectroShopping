@@ -14,30 +14,30 @@ public class UserDAOImpl implements UserDAO {
 
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
+
+	@Override
+	public void updatePassword(UserInfo user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		sqlSession.selectOne("UserMapper.updateUserPassword", user);
+	}
+
 	@Override
 	public void insertUser(UserInfo user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		sqlSession.selectOne("UserMapper.insertUser", user);
 	}
-	
+
 	@Override
 	public UserInfo selectUserByName(String username) {
 		return sqlSession.selectOne("UserMapper.selectUserByName", username);
 	}
-	
+
 	@Override
 	public void updateUser(UserInfo user) {
 		sqlSession.selectOne("UserMapper.updateUser", user);
-	}
-
-	@Override
-	public void updatePassword(UserInfo user) {		
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		sqlSession.selectOne("UserMapper.updateUserPassword", user);
 	}
 
 	@Override

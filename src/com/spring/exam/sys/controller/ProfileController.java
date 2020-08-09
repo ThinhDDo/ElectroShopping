@@ -124,7 +124,11 @@ public class ProfileController {
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}	
+		
+		user.setBirthday(newProfile.getBirthday());
+		user.setEmail(newProfile.getEmail());
+		user.setPhone(newProfile.getPhone());
 		
 		userService.updateUser(user);
 		model.addAttribute("user", user);
