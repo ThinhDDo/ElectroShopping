@@ -1,4 +1,4 @@
-												package com.spring.exam.config;
+package com.spring.exam.config;
 
 import javax.sql.DataSource;
 
